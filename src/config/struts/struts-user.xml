@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd" >
+<struts>
+	<package name="center_user" extends="center_defaultStruts" namespace="/">
+		<action name="register" class="registeraction" method="regQyUser">
+			<result name="success" type="redirect">
+				<param name="location">/table/desktop.html</param>
+			</result>
+			<result name="error">/login.jsp</result>
+		</action>
+		<action name="register" class="registeraction" method="regQyUserStep2">
+			<result name="success">
+				<param name="location">/registerstep2.jsp</param>
+			</result>
+			<result name="error">/login.jsp</result>
+		</action>
+	</package>
+</struts>

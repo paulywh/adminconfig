@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- This file was auto-generated from WSDL -->
+<!-- by the Apache Axis2 version: 1.5  Built on : Apr 30, 2009 (06:07:24 EDT) -->
+<serviceGroup>
+    <service name="Mplus.PortalService">
+        <messageReceivers>
+            <messageReceiver mep="http://www.w3.org/ns/wsdl/in-out" class="org.apache.axis2.rpc.receivers.RPCMessageReceiver"/>
+        </messageReceivers>
+        <parameter name="ServiceObjectSupplier">org.apache.axis2.extensions.spring.receivers.SpringAppContextAwareObjectSupplier</parameter>
+        <parameter name="SpringBeanName">portalProductService</parameter>
+        <operation name="ServiceUnSubscribe" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://soapagent.mvas.huawei.com">
+            <actionMapping>http://soapagent.mvas.huawei.com/MvasServices/ServiceUnSubscribeRequest</actionMapping>
+            <outputActionMapping>http://soapagent.mvas.huawei.com/MvasServices/ServiceUnSubscribeResponse</outputActionMapping>
+        </operation>
+        <operation name="ModUserServiceStatus" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://soapagent.mvas.huawei.com">
+            <actionMapping>http://soapagent.mvas.huawei.com/MvasServices/modUserServiceStatusRequest</actionMapping>
+            <outputActionMapping>http://soapagent.mvas.huawei.com/MvasServices/modUserServiceStatusResponse</outputActionMapping>
+        </operation>
+        <operation name="ServiceSubscribe" mep="http://www.w3.org/ns/wsdl/in-out" namespace="http://soapagent.mvas.huawei.com">
+            <actionMapping>http://soapagent.mvas.huawei.com/MvasServices/ServiceSubscribeRequest</actionMapping>
+            <outputActionMapping>http://soapagent.mvas.huawei.com/MvasServices/ServiceSubscribeResponse</outputActionMapping>
+        </operation>
+    </service>
+</serviceGroup>

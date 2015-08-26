@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="t_mc_userinfo">
+	<typeAlias alias="user" type="com.computercenter.service.user.bean.UserBean" />
+    
+    <resultMap class="com.computercenter.service.user.bean.UserBean" id="baseResultMap">
+        <result column="LOGINNAME" jdbcType="VARCHAR" property="loginName"/>
+	    <result column="QYNAME" jdbcType="VARCHAR" property="qyName"/>
+	    <result column="EMAIL" jdbcType="VARCHAR" property="email"/>
+	    <result column="CHECKCODE" jdbcType="VARCHAR" property="checkCode"/>
+    </resultMap>
+    
+    <select id="queryuserinfo" parameterClass="java.lang.String" resultMap="baseResultMap">
+        select * from t_mc_userinfo where LOGINNAME = #value#
+    </select>
+</sqlMap>
