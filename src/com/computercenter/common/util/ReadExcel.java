@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -34,7 +35,7 @@ public class ReadExcel {
     private static HSSFWorkbook wb;
     private static HSSFSheet sheet;
     private static HSSFRow row;
-    private static String TEST_WORKBOOK_NAME = "/Users/paul/Documents/workspace_java/excelDemo/jsb8y.xls";
+    private static String TEST_WORKBOOK_NAME = "F:/gitspace/adminconfig/portal/upfile/jsb8y.xls";
     
     private static Map<String,Map<String,List<UtilBean>>> excmap = new HashMap<String,Map<String,List<UtilBean>>>();
 
@@ -56,6 +57,15 @@ public class ReadExcel {
 	    } 
 	    
 	    writeExcelSimple(excmap);
+	    
+	}
+	
+	private static int getDayMaxNum(int month)
+	{
+		java.util.Calendar cal = java.util.Calendar.getInstance();
+	    cal.set(cal.get(Calendar.YEAR),month,0);
+	    int days = cal.getActualMaximum(Calendar.DAY_OF_MONTH);
+	    return days;
 	}
 	
 	public static void readExcel(InputStream is)
@@ -248,13 +258,81 @@ public class ReadExcel {
                     HSSFRow row = sheet.createRow((short) y);
                     String tempusername = utentry.getKey();
                     List<UtilBean> ublist = utentry.getValue();
+                    int maxday = getDayMaxNum(Integer.valueOf(ublist.get(0).getDate().split("-")[1]));
                     
-                    for (int i = 0; i < ublist.size(); i++) {
-                        UtilBean ubean = ublist.get(i);
-                        // 四个参数分别是：起始行，起始列，结束行，结束列
-                        sheet.addMergedRegion(new Region((short)i,(short)i,i,(short)i));
-                        HSSFCell cell = row.createCell((short)i+1);
-                        cell.setCellValue("√"); 
+                    boolean alldaysleep = false;//正常休息一天
+                    for(int i=0;i<=maxday;i++)
+                    {
+                    	if(alldaysleep)
+                    	{
+                    		// 四个参数分别是：起始行，起始列，结束行，结束列
+                    		sheet.addMergedRegion(new Region((short)i,(short)i,i,(short)i));
+                            HSSFCell cell = row.createCell((short)i);
+                            cell.setCellValue("○");//轮休
+                            alldaysleep = false;
+                    	}
+                    	else
+                    	{
+                    		boolean bol = false;
+                        	int num = 0;
+                        	int type = 0;//状态
+                        	for (int a = 0; a < ublist.size(); a++) {
+                                UtilBean ubean = ublist.get(a);
+                                if(i == Integer.valueOf(ubean.getDate().split("-")[2]))
+                                {
+                                	bol = true;
+                                	num = i;
+                                	if(!ubean.getQdtime().equals("") || !ubean.getQttime().equals(""))
+                                	{
+                                		if(!ubean.getQdtime().equals(""))
+                                		{
+                                			int qdtime = Integer.valueOf(ubean.getQdtime().split(":")[0]);
+                                			if(qdtime >= 17)
+                                			{
+                                				alldaysleep = true;
+                                			}
+                                		}
+                                		if(!ubean.getQttime().equals(""))
+                                		{
+                                			int qttime = Integer.valueOf(ubean.getQttime().split(":")[0]);
+                                			if(qttime >= 06)
+                                			{
+                                				alldaysleep = true;
+                                			}
+                                		}
+                                	}
+                                	if(!ubean.getZttime().equals("") || !ubean.getLatetime().equals(""))
+                                	{
+                                		type = 1;
+                                	}
+                                	
+                                	break;
+                                }
+                            }
+                        	if(bol)
+                        	{
+                        		// 四个参数分别是：起始行，起始列，结束行，结束列
+                        		sheet.addMergedRegion(new Region((short)num,(short)num,num,(short)num));
+                                HSSFCell cell = row.createCell((short)num);
+                                switch(type)
+                                {
+                                	case 0 :
+                                		cell.setCellValue("√");//正常工作
+                                	break;
+                                	case 1 :
+                                		cell.setCellValue("X");//迟到早退
+                                	break;
+                                }
+                                
+                        	}
+                        	else
+                        	{
+                        		// 四个参数分别是：起始行，起始列，结束行，结束列
+                        		sheet.addMergedRegion(new Region((short)i,(short)i,i,(short)i));
+                                HSSFCell cell = row.createCell((short)i);
+                                cell.setCellValue("◆");
+                        	}
+                    	}
                     }
                     
                     sheet.addMergedRegion(new Region((short)0,(short)0,0,(short)0));
