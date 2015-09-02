@@ -37,7 +37,7 @@ public class ReadExcel {
     private static HSSFRow row;
     private static String TEST_WORKBOOK_NAME = "F:/gitspace/adminconfig/portal/upfile/jsb8mbak.xls";
     
-    private static Map<String,Map<String,List<UtilBean>>> excmap = new HashMap<String,Map<String,List<UtilBean>>>();
+    private static Map<String,Map<Integer,List<UtilBean>>> excmap = new HashMap<String,Map<Integer,List<UtilBean>>>();
 
 	public static void main(String[] args) throws IOException {
 //	    writeExcel();
@@ -98,8 +98,8 @@ public class ReadExcel {
         	
         	if(excmap.get(department) == null)
         	{
-        	    Map<String,List<UtilBean>> mapuser = new HashMap<String,List<UtilBean>>();
-        		if(mapuser.get(username) == null)
+        	    Map<Integer,List<UtilBean>> mapuser = new HashMap<Integer,List<UtilBean>>();
+        		if(mapuser.get(loginnumber) == null)
             	{
             		UtilBean ubean = new UtilBean();
             		ubean.setLoginnumber(loginnumber);
@@ -117,7 +117,7 @@ public class ReadExcel {
                  	
                  	List<UtilBean> ubeanlist = new ArrayList<UtilBean>();
             		ubeanlist.add(ubean);
-            		mapuser.put(username, ubeanlist);
+            		mapuser.put(loginnumber, ubeanlist);
             	}
             	else
             	{
@@ -134,14 +134,14 @@ public class ReadExcel {
                  	ubean.setWorktime(worktime);
                  	ubean.setDepartment(department);
                  	ubean.setFlag(flag);
-            		mapuser.get(username).add(ubean);
+            		mapuser.get(loginnumber).add(ubean);
             	}
         		excmap.put(department, mapuser);
         	}
         	else
         	{
-        		Map<String,List<UtilBean>> mapuser1 = excmap.get(department);
-        		if(mapuser1.get(username) == null)
+        		Map<Integer,List<UtilBean>> mapuser1 = excmap.get(department);
+        		if(mapuser1.get(loginnumber) == null)
             	{
             		UtilBean ubean = new UtilBean();
             		ubean.setLoginnumber(loginnumber);
@@ -159,7 +159,7 @@ public class ReadExcel {
                  	
                  	List<UtilBean> ubeanlist = new ArrayList<UtilBean>();
             		ubeanlist.add(ubean);
-            		mapuser1.put(username, ubeanlist);
+            		mapuser1.put(loginnumber, ubeanlist);
             	}
             	else
             	{
@@ -176,7 +176,7 @@ public class ReadExcel {
                  	ubean.setWorktime(worktime);
                  	ubean.setDepartment(department);
                  	ubean.setFlag(flag);
-                 	mapuser1.get(username).add(ubean);
+                 	mapuser1.get(loginnumber).add(ubean);
             	}
         		excmap.put(department, mapuser1);
         	}
@@ -234,29 +234,29 @@ public class ReadExcel {
 
     }
     
-    public static void writeExcelSimple(Map<String,Map<String,List<UtilBean>>> excmap)
+    public static void writeExcelSimple(Map<String,Map<Integer,List<UtilBean>>> excmap)
     {
 
     	String name = "王二小";
 	    try {
             HSSFWorkbook wb = new HSSFWorkbook();
             
-            Set<Entry<String, Map<String, List<UtilBean>>>> set = excmap.entrySet();
-            Iterator<Entry<String, Map<String, List<UtilBean>>>> iterator = set.iterator();
+            Set<Entry<String, Map<Integer, List<UtilBean>>>> set = excmap.entrySet();
+            Iterator<Entry<String, Map<Integer, List<UtilBean>>>> iterator = set.iterator();
             while(iterator.hasNext())
             {
-                Entry<String, Map<String, List<UtilBean>>> entry = iterator.next();
+                Entry<String, Map<Integer, List<UtilBean>>> entry = iterator.next();
                 HSSFSheet sheet = wb.createSheet(entry.getKey());
                 
-                Map<String, List<UtilBean>> utmap = entry.getValue();
-                Set<Entry<String, List<UtilBean>>> utset = utmap.entrySet();
-                Iterator<Entry<String, List<UtilBean>>> utiterator = utset.iterator();
+                Map<Integer, List<UtilBean>> utmap = entry.getValue();
+                Set<Entry<Integer, List<UtilBean>>> utset = utmap.entrySet();
+                Iterator<Entry<Integer, List<UtilBean>>> utiterator = utset.iterator();
                 int y = 0;
                 while(utiterator.hasNext())
                 {
-                    Entry<String, List<UtilBean>> utentry = utiterator.next();
+                    Entry<Integer, List<UtilBean>> utentry = utiterator.next();
                     HSSFRow row = sheet.createRow((short) y);
-                    String tempusername = utentry.getKey();
+                    String tempusername = "";
                     List<UtilBean> ublist = utentry.getValue();
                     int maxday = getDayMaxNum(Integer.valueOf(ublist.get(0).getDate().split("-")[1]));
                     
@@ -278,6 +278,7 @@ public class ReadExcel {
                         	int type = 1;//状态
                         	for (int a = 0; a < ublist.size(); a++) {
                                 UtilBean ubean = ublist.get(a);
+                                tempusername = ubean.getUsername();
                                 if(i == Integer.valueOf(ubean.getDate().split("-")[2]))
                                 {
                                 	if(ubean.getUsername().equals("池学峰"))
