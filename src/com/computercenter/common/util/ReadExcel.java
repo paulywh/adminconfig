@@ -35,7 +35,7 @@ public class ReadExcel {
     private static HSSFWorkbook wb;
     private static HSSFSheet sheet;
     private static HSSFRow row;
-    private static String TEST_WORKBOOK_NAME = "F:/gitspace/adminconfig/portal/upfile/jsb8y.xls";
+    private static String TEST_WORKBOOK_NAME = "F:/gitspace/adminconfig/portal/upfile/jsb8mbak.xls";
     
     private static Map<String,Map<String,List<UtilBean>>> excmap = new HashMap<String,Map<String,List<UtilBean>>>();
 
@@ -275,13 +275,23 @@ public class ReadExcel {
                     	{
                     		boolean bol = false;
                         	int num = 0;
-                        	int type = 0;//状态
+                        	int type = 1;//状态
                         	for (int a = 0; a < ublist.size(); a++) {
                                 UtilBean ubean = ublist.get(a);
                                 if(i == Integer.valueOf(ubean.getDate().split("-")[2]))
                                 {
+                                	if(ubean.getUsername().equals("池学峰"))
+                                	{
+//                                		System.out.println("abc");
+                                	}
                                 	bol = true;
                                 	num = i;
+                                	if(ubean.getQdtime().equals("") && ubean.getQttime().equals(""))
+                                	{
+                                		bol = false;
+                                		break;
+                                	}
+                                	
                                 	if(!ubean.getQdtime().equals("") || !ubean.getQttime().equals(""))
                                 	{
                                 		if(!ubean.getQdtime().equals(""))
@@ -295,7 +305,7 @@ public class ReadExcel {
                                 		if(!ubean.getQttime().equals(""))
                                 		{
                                 			int qttime = Integer.valueOf(ubean.getQttime().split(":")[0]);
-                                			if(qttime >= 06)
+                                			if(qttime >= 06 && qttime <= 12)
                                 			{
                                 				alldaysleep = true;
                                 			}
@@ -303,7 +313,7 @@ public class ReadExcel {
                                 	}
                                 	if(!ubean.getZttime().equals("") || !ubean.getLatetime().equals(""))
                                 	{
-                                		type = 1;
+                                		type = 0;
                                 	}
                                 	
                                 	break;
@@ -317,13 +327,12 @@ public class ReadExcel {
                                 switch(type)
                                 {
                                 	case 0 :
-                                		cell.setCellValue("√");//正常工作
-                                	break;
-                                	case 1 :
                                 		cell.setCellValue("X");//迟到早退
                                 	break;
+                                	case 1 :
+                                		cell.setCellValue("√");//正常工作
+                                	break;
                                 }
-                                
                         	}
                         	else
                         	{
