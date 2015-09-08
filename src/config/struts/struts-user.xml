@@ -14,5 +14,11 @@
 			</result>
 			<result name="error">/login.jsp</result>
 		</action>
+		<action name="useraction" class="useraction" method="doLogin">
+			<result name="success">
+				<param name="location">/index.html</param>
+			</result>
+			<result name="error">/login.jsp</result>
+		</action>
 	</package>
 </struts>

@@ -6,4 +6,9 @@
 			<ref bean="registerManager"/>
 		</property>
 	</bean>
+	<bean id="useraction" class="com.computercenter.service.user.action.UserAction" scope="prototype">
+		<property name="registerManagerAction">
+			<ref bean="registerManager"/>
+		</property>
+	</bean>
 </beans>
