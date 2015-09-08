@@ -276,6 +276,7 @@ public class ReadExcel {
                     		boolean bol = false;
                         	int num = 0;
                         	int type = 1;//状态
+                        	int typeye = 0;//夜班状态
                         	for (int a = 0; a < ublist.size(); a++) {
                                 UtilBean ubean = ublist.get(a);
                                 tempusername = ubean.getUsername();
@@ -301,6 +302,7 @@ public class ReadExcel {
                                 			if(qdtime >= 17)
                                 			{
                                 				alldaysleep = true;
+                                				typeye = 1;
                                 			}
                                 		}
                                 		if(!ubean.getQttime().equals(""))
@@ -309,6 +311,7 @@ public class ReadExcel {
                                 			if(qttime >= 06 && qttime <= 12)
                                 			{
                                 				alldaysleep = true;
+                                				typeye = 1;
                                 			}
                                 		}
                                 	}
@@ -328,10 +331,17 @@ public class ReadExcel {
                                 switch(type)
                                 {
                                 	case 0 :
-                                		cell.setCellValue("X");//迟到早退
+                                		cell.setCellValue("迟到");//迟到早退
                                 	break;
                                 	case 1 :
-                                		cell.setCellValue("√");//正常工作
+                                		if(typeye == 1)
+                                		{
+                                			cell.setCellValue("X");//夜班正常工作
+                                		}
+                                		else
+                                		{
+                                			cell.setCellValue("√");//正常工作
+                                		}
                                 	break;
                                 }
                         	}
