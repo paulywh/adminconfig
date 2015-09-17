@@ -6,6 +6,13 @@
 			<ref bean="registerDao"/>
 		</property>
 	</bean>
+	<bean id="userManager" class="com.computercenter.service.user.manager.impl.UserManagerImpl">
+		<property name="userDao">
+			<ref bean="userDao"/>
+		</property>
+	</bean>
 	<bean id="registerDao" class="com.computercenter.service.user.dao.impl.RegisterDaoImpl" parent="iBatisDaoSupport">
+	</bean>
+	<bean id="userDao" class="com.computercenter.service.user.dao.impl.UserDaoImpl" parent="iBatisDaoSupport">
 	</bean>
 </beans>

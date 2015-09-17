@@ -35,7 +35,7 @@ public class ReadExcel {
     private static HSSFWorkbook wb;
     private static HSSFSheet sheet;
     private static HSSFRow row;
-    private static String TEST_WORKBOOK_NAME = "F:/gitspace/adminconfig/portal/upfile/jsb8mbak.xls";
+    private static String TEST_WORKBOOK_NAME = "F:/gitspace/adminconfig/portal/upfile/scb9shang.xls";
     
     private static Map<String,Map<Integer,List<UtilBean>>> excmap = new HashMap<String,Map<Integer,List<UtilBean>>>();
 

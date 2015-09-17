@@ -4,13 +4,16 @@
 	<typeAlias alias="user" type="com.computercenter.service.user.bean.UserBean" />
     
     <resultMap class="com.computercenter.service.user.bean.UserBean" id="baseResultMap">
+    	<result column="ID" jdbcType="INTEGER" property="id"/>
         <result column="LOGINNAME" jdbcType="VARCHAR" property="loginName"/>
 	    <result column="QYNAME" jdbcType="VARCHAR" property="qyName"/>
 	    <result column="EMAIL" jdbcType="VARCHAR" property="email"/>
 	    <result column="CHECKCODE" jdbcType="VARCHAR" property="checkCode"/>
+	    <result column="USERNAME" jdbcType="VARCHAR" property="username"/>
+	    <result column="PASSWORD" jdbcType="VARCHAR" property="password"/>
     </resultMap>
     
-    <select id="queryuserinfo" parameterClass="java.lang.String" resultMap="baseResultMap">
-        select * from t_mc_userinfo where LOGINNAME = #value#
+    <select id="queryuserinfo" parameterClass="java.util.Map" resultMap="baseResultMap">
+        select * from config_usertable where USERNAME = #username# and PASSWORD = #password#
     </select>
 </sqlMap>

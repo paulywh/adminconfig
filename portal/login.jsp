@@ -19,7 +19,7 @@
 		    </p>
 		    <p>
 		        <label for="password">密码</label>
-		        <input type="password" id= "assword" placeholder="密码" name="assword"> 
+		        <input type="password" id= "password" placeholder="密码" name="password"> 
 		    </p>
 	
 		    <p>

@@ -4,7 +4,10 @@ import java.io.Serializable;
 
 public class UserBean implements Serializable
 {
-    /**
+	private static final long serialVersionUID = 4553523212421040619L;
+
+	private int id;
+	/**
      * 登录名
      */
     private String loginName;
@@ -23,8 +26,22 @@ public class UserBean implements Serializable
      * 验证码
      */
     private String checkCode;
+    
+    //用户登陆名字
+    private String username;
+	
+    //用户登陆密码
+	private String password;
 
-    public String getLoginName()
+    public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getLoginName()
     {
         return loginName;
     }
@@ -63,4 +80,20 @@ public class UserBean implements Serializable
     {
         this.checkCode = checkCode;
     }
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }

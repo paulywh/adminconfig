@@ -2,39 +2,49 @@ package com.computercenter.service.user.action;
 
 import java.io.IOException;
 import java.util.Map;
-
 import javax.mail.MessagingException;
 import org.apache.struts2.interceptor.RequestAware;
-import com.computercenter.service.user.manager.RegisterManager;
+import com.computercenter.service.user.bean.UserBean;
+import com.computercenter.service.user.manager.UserManager;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class UserAction extends ActionSupport implements RequestAware{
 
 	private static final long serialVersionUID = -6007394476923963291L;
 
-	private RegisterManager registerManagerAction;
+	private UserManager userManager;
 	
 	private String username;
 	
-	private String assword;
+	private String password;
 	
 	public String doLogin() throws IOException, MessagingException
     {
-		System.out.println(username + "-------" + assword);
-		return "success";
+		UserBean ub = new UserBean();
+		ub.setUsername(username);
+		ub.setPassword(password);
+		boolean bol = userManager.checkUser(ub);
+		if(bol)
+		{
+			return "success";
+		}
+		else
+		{
+			return "error";	
+		}
     }
 	
 	@Override
 	public void setRequest(Map<String, Object> arg0) {
-		
 	}
 
-	public RegisterManager getRegisterManagerAction() {
-		return registerManagerAction;
+
+	public UserManager getUserManager() {
+		return userManager;
 	}
 
-	public void setRegisterManagerAction(RegisterManager registerManagerAction) {
-		this.registerManagerAction = registerManagerAction;
+	public void setUserManager(UserManager userManager) {
+		this.userManager = userManager;
 	}
 
 	public String getUsername() {
@@ -45,11 +55,11 @@ public class UserAction extends ActionSupport implements RequestAware{
 		this.username = username;
 	}
 
-	public String getAssword() {
-		return assword;
+	public String getPassword() {
+		return password;
 	}
 
-	public void setAssword(String assword) {
-		this.assword = assword;
+	public void setPassword(String password) {
+		this.password = password;
 	}
 }
