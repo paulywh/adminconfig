@@ -1,7 +1,10 @@
 package com.computercenter.service.user.manager;
 
+import java.util.List;
+
+import com.computercenter.service.user.bean.MenusBean;
 import com.computercenter.service.user.bean.UserBean;
 
 public interface UserManager {
-	public boolean checkUser(UserBean ub);
+	List<MenusBean> checkUser(UserBean ub);
 }

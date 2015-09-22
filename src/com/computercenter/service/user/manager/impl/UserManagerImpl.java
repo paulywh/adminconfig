@@ -1,5 +1,8 @@
 package com.computercenter.service.user.manager.impl;
 
+import java.util.List;
+
+import com.computercenter.service.user.bean.MenusBean;
 import com.computercenter.service.user.bean.UserBean;
 import com.computercenter.service.user.dao.UserDao;
 import com.computercenter.service.user.manager.UserManager;
@@ -9,13 +12,15 @@ public class UserManagerImpl implements UserManager {
 	private UserDao userDao;
 	
 	@Override
-	public boolean checkUser(UserBean ub) {
+	public List<MenusBean> checkUser(UserBean ub) {
 		UserBean ubean = userDao.getUser(ub);
 		if(ubean != null)
 		{
-			return true;
+			//查询权限
+			List<MenusBean> mblist = userDao.getUserLimit(ubean.getId());
+			return mblist;
 		}
-		return false;
+		return null;
 	}
 	
 	public UserDao getUserDao() {

@@ -13,7 +13,28 @@
 	    <result column="PASSWORD" jdbcType="VARCHAR" property="password"/>
     </resultMap>
     
+    <resultMap class="com.computercenter.service.user.bean.MenusBean" id="menusBeanMap">
+    	<result column="MENUID" jdbcType="VARCHAR" property="menuid"/>
+        <result column="ICON" jdbcType="VARCHAR" property="icon"/>
+	    <result column="MENUNAME" jdbcType="VARCHAR" property="menuname"/>
+    </resultMap>
+    
+    <resultMap class="com.computercenter.service.user.bean.Menus" id="menusMap">
+    	<result column="MENUID" jdbcType="VARCHAR" property="menuid"/>
+        <result column="ICON" jdbcType="VARCHAR" property="icon"/>
+	    <result column="MENUNAME" jdbcType="VARCHAR" property="menuname"/>
+	    <result column="URL" jdbcType="VARCHAR" property="url"/>
+    </resultMap>
+    
     <select id="queryuserinfo" parameterClass="java.util.Map" resultMap="baseResultMap">
         select * from config_usertable where USERNAME = #username# and PASSWORD = #password#
+    </select>
+    
+    <select id="queryusermenusgroup" parameterClass="java.lang.String" resultMap="menusBeanMap">
+        select * from config_menusgroup where menuid in(select menugroupid from config_usertable_menusgroup where userid = #userid#)
+    </select>
+    
+    <select id="queryusermenus" parameterClass="java.lang.String" resultMap="menusMap">
+        select * from config_menus where menuid in (select menusid from config_menusgroup_menus where menusgroupid = #menusgroupid#)
     </select>
 </sqlMap>

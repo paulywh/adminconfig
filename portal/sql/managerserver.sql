@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50611
 File Encoding         : 65001
 
-Date: 2015-09-17 21:43:18
+Date: 2015-09-22 20:20:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,6 +30,7 @@ CREATE TABLE `config_menus` (
 -- ----------------------------
 -- Records of config_menus
 -- ----------------------------
+INSERT INTO `config_menus` VALUES ('1', '考勤', 'k.jpg', 'k.action');
 
 -- ----------------------------
 -- Table structure for `config_menusgroup`
@@ -45,6 +46,8 @@ CREATE TABLE `config_menusgroup` (
 -- ----------------------------
 -- Records of config_menusgroup
 -- ----------------------------
+INSERT INTO `config_menusgroup` VALUES ('1', '1.jpg', 'OA');
+INSERT INTO `config_menusgroup` VALUES ('2', '2.jpg', 'OFFICE');
 
 -- ----------------------------
 -- Table structure for `config_menusgroup_menus`
@@ -60,34 +63,7 @@ CREATE TABLE `config_menusgroup_menus` (
 -- ----------------------------
 -- Records of config_menusgroup_menus
 -- ----------------------------
-
--- ----------------------------
--- Table structure for `config_menushouse`
--- ----------------------------
-DROP TABLE IF EXISTS `config_menushouse`;
-CREATE TABLE `config_menushouse` (
-  `id` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of config_menushouse
--- ----------------------------
-
--- ----------------------------
--- Table structure for `config_menushouse_menusgroup`
--- ----------------------------
-DROP TABLE IF EXISTS `config_menushouse_menusgroup`;
-CREATE TABLE `config_menushouse_menusgroup` (
-  `id` int(10) NOT NULL,
-  `shouseid` varchar(50) NOT NULL,
-  `menusgroupid` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of config_menushouse_menusgroup
--- ----------------------------
+INSERT INTO `config_menusgroup_menus` VALUES ('1', '1', '1');
 
 -- ----------------------------
 -- Table structure for `config_usertable`
@@ -110,16 +86,17 @@ CREATE TABLE `config_usertable` (
 INSERT INTO `config_usertable` VALUES ('0', 'wangerxiao', 'wangerxiao', null, null, null, null);
 
 -- ----------------------------
--- Table structure for `config_usertable_menushouse`
+-- Table structure for `config_usertable_menusgroup`
 -- ----------------------------
-DROP TABLE IF EXISTS `config_usertable_menushouse`;
-CREATE TABLE `config_usertable_menushouse` (
+DROP TABLE IF EXISTS `config_usertable_menusgroup`;
+CREATE TABLE `config_usertable_menusgroup` (
   `id` int(10) NOT NULL,
   `userid` int(10) NOT NULL,
-  `menushouseid` varchar(50) NOT NULL,
+  `menugroupid` varchar(50) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
--- Records of config_usertable_menushouse
+-- Records of config_usertable_menusgroup
 -- ----------------------------
+INSERT INTO `config_usertable_menusgroup` VALUES ('1', '0', '1');

@@ -1,6 +1,9 @@
 package com.computercenter.service.user.bean;
 
-public class Menus {
+import java.io.Serializable;
+
+public class Menus implements Serializable{
+	private static final long serialVersionUID = -5033404121317611943L;
 	private String menuid;
 	private String menuname;
 	private String icon;

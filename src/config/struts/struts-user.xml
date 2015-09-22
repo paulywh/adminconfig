@@ -16,7 +16,7 @@
 		</action>
 		<action name="useraction" class="useraction" method="doLogin">
 			<result name="success">
-				<param name="location">/index.html</param>
+				<param name="location">adminfile/configmain.jsp</param>
 			</result>
 			<result name="error">/error.html</result>
 		</action>

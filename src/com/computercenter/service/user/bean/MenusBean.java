@@ -1,8 +1,10 @@
 package com.computercenter.service.user.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class MenusBean {
+public class MenusBean implements Serializable{
+	private static final long serialVersionUID = -6754793881194784373L;
 	private String menuid;
 	private String icon;
 	private String menuname;
