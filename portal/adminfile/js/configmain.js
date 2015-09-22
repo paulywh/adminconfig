@@ -1,4 +1,3 @@
-var _menus = {"basic":[{"icon":"1.jpg","menuid":"1","menuname":"OA","menus":[{"icon":"k.jpg","menuid":"1","menuname":"考勤","url":"k.action"}]}]};
 //设置登录窗口
 function openPwd() {
     $('#w').window({

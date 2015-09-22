@@ -8,18 +8,21 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>config</title>
-<script type="text/javascript" src="<%=request.getContextPath()%>/adminfile/js/jquery-1.4.2.min.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/adminfile/js/jquery.easyui.min-1.2.0.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/adminfile/js/configmain.js"></script>
-<script type="text/javascript" src="<%=request.getContextPath()%>/adminfile/js/outlook.js"></script>
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/adminfile/js/themes/default/easyui.css" />
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/adminfile/js/themes/icon.css" />
-<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/adminfile/css/default.css" />
+<script type="text/javascript" src="adminfile/js/jquery-1.4.2.min.js"></script>
+<script type="text/javascript" src="adminfile/js/jquery.easyui.min-1.2.0.js"></script>
+<script type="text/javascript" src="adminfile/js/configmain.js"></script>
+<script type="text/javascript" src="adminfile/js/outlook.js"></script>
+<link rel="stylesheet" type="text/css" href="adminfile/js/themes/default/easyui.css" />
+<link rel="stylesheet" type="text/css" href="adminfile/js/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="adminfile/css/default.css" />
 <Style>
 #css3menu li{ float:left; list-style-type:none;}
 #css3menu li a{	color:#fff; padding-right:20px;}
 #css3menu li a.active{color:yellow;}
 </style>
+<script type="text/javascript">
+var _menus = <%=userlimitjson%>;
+</script>
 </head>
 <body class="easyui-layout" style="overflow-y: hidden"  scroll="no">
 <noscript>
