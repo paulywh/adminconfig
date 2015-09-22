@@ -20,5 +20,11 @@
 			</result>
 			<result name="error">/error.html</result>
 		</action>
+		<action name="useraction" class="useraction" method="toKaoQin">
+			<result name="success">
+				<param name="location">adminfile/configmain.jsp</param>
+			</result>
+			<result name="error">/error.html</result>
+		</action>
 	</package>
 </struts>

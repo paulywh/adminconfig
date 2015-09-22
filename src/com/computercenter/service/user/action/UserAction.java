@@ -43,6 +43,11 @@ public class UserAction extends ActionSupport implements RequestAware{
 		}
     }
 	
+	public String toKaoQin()
+	{
+		return null;
+	}
+	
 	@Override
 	public void setRequest(Map<String, Object> arg0) {
 	}

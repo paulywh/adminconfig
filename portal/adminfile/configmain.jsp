@@ -35,7 +35,7 @@ var _menus = <%=userlimitjson%>;
         line-height: 20px;color: #fff; font-family: Verdana, 微软雅黑,黑体">
         <span style="float:right; padding-right:20px;" class="head">欢迎 xxxx <a href="#" id="editpass">修改密码</a> <a href="#" id="loginOut">安全退出</a></span>
 
-        <span style="padding-left:10px; font-size: 16px; float:left;"><img src="<%=request.getContextPath()%>/adminfile/images/blocks.gif" width="20" height="20" align="absmiddle" /> 我的帐本</span>
+        <span style="padding-left:10px; font-size: 16px; float:left;"><img src="adminfile/images/blocks.gif" width="20" height="20" align="absmiddle" /> 管理后台</span>
 		<ul id="css3menu" style="padding:0px; margin:0px;list-type:none; float:left; margin-left:40px;">
 				<li ><a class="active" name="basic" href="javascript:;" title="基础数据">基础数据</a></li>
 				<li><a name="point" href="javascript:;" title="积分管理">积分管理</a></li>
