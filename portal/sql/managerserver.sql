@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50611
 File Encoding         : 65001
 
-Date: 2015-09-22 20:20:40
+Date: 2015-09-22 22:15:55
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,7 +30,8 @@ CREATE TABLE `config_menus` (
 -- ----------------------------
 -- Records of config_menus
 -- ----------------------------
-INSERT INTO `config_menus` VALUES ('1', '考勤', 'k.jpg', 'k.action');
+INSERT INTO `config_menus` VALUES ('1', '考勤', 'k.jpg', 'useraction!toKaoQin.action');
+INSERT INTO `config_menus` VALUES ('2', '用户', 'yh.jpg', 'adminfile/configuser.jsp');
 
 -- ----------------------------
 -- Table structure for `config_menusgroup`
@@ -48,6 +49,7 @@ CREATE TABLE `config_menusgroup` (
 -- ----------------------------
 INSERT INTO `config_menusgroup` VALUES ('1', '1.jpg', 'OA');
 INSERT INTO `config_menusgroup` VALUES ('2', '2.jpg', 'OFFICE');
+INSERT INTO `config_menusgroup` VALUES ('3', '3.jpg', '用户管理');
 
 -- ----------------------------
 -- Table structure for `config_menusgroup_menus`
@@ -63,7 +65,7 @@ CREATE TABLE `config_menusgroup_menus` (
 -- ----------------------------
 -- Records of config_menusgroup_menus
 -- ----------------------------
-INSERT INTO `config_menusgroup_menus` VALUES ('1', '1', '1');
+INSERT INTO `config_menusgroup_menus` VALUES ('1', '3', '2');
 
 -- ----------------------------
 -- Table structure for `config_usertable`
@@ -99,4 +101,4 @@ CREATE TABLE `config_usertable_menusgroup` (
 -- ----------------------------
 -- Records of config_usertable_menusgroup
 -- ----------------------------
-INSERT INTO `config_usertable_menusgroup` VALUES ('1', '0', '1');
+INSERT INTO `config_usertable_menusgroup` VALUES ('2', '0', '3');
