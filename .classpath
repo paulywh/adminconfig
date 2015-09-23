@@ -84,5 +84,11 @@
 	<classpathentry kind="lib" path="portal/WEB-INF/lib/commons-pool-1.4.jar"/>
 	<classpathentry kind="lib" path="portal/WEB-INF/lib/ibatis-2.3.4.726.jar"/>
 	<classpathentry kind="lib" path="portal/WEB-INF/lib/mysql-connector-java-5.1.6-bin.jar"/>
+	<classpathentry kind="lib" path="portal/WEB-INF/lib/poi-3.8-20120326.jar"/>
+	<classpathentry kind="lib" path="portal/WEB-INF/lib/poi-examples-3.8-20120326.jar"/>
+	<classpathentry kind="lib" path="portal/WEB-INF/lib/poi-excelant-3.8-20120326.jar"/>
+	<classpathentry kind="lib" path="portal/WEB-INF/lib/poi-ooxml-3.8-20120326.jar"/>
+	<classpathentry kind="lib" path="portal/WEB-INF/lib/poi-ooxml-schemas-3.8-20120326.jar"/>
+	<classpathentry kind="lib" path="portal/WEB-INF/lib/poi-scratchpad-3.8-20120326.jar"/>
 	<classpathentry kind="output" path="portal/WEB-INF/classes"/>
 </classpath>
