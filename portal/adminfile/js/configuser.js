@@ -1,4 +1,4 @@
-$(function(){
+$(function() {
 	$('#test').datagrid({
 		title:'My DataGrid',
 		iconCls:'icon-save',
@@ -7,30 +7,30 @@ $(function(){
 		nowrap: false,
 		striped: true,
 		collapsible:true,
-		url:'adminfile/js/datagrid_data.json',
+		url:'js/datagrid_data.json',
 		sortName: 'code',
 		sortOrder: 'desc',
 		remoteSort: false,
 		idField:'code',
 		frozenColumns:[[
-            {field:'ck',checkbox:true},
-            {title:'code',field:'code',width:80,sortable:true}
-		]],
-		columns:[[
-	        {title:'Base Information',colspan:3},
-			{field:'opt',title:'Operation',width:100,align:'center', rowspan:2,
+			{field:'image',title:'头像',width:80,align:'center',
 				formatter:function(value,rec){
-					return '<span style="color:red">Edit Delete</span>';
-				}
-			}
-		],[
-			{field:'name',title:'Name',width:120},
-			{field:'addr',title:'Address',width:220,rowspan:2,sortable:true,
-				sorter:function(a,b){
-					return (a>b?1:-1);
+					var img = rec.img;
+					return '<img src="../upimage/'+img+'" />';
 				}
 			},
-			{field:'col4',title:'Col41',width:150,rowspan:2}
+			{field:'code',title:'id',width:80,sortable:true},
+			{field:'name',title:'姓名',width:80},
+			{field:'addr',title:'性别',width:80},
+			{field:'col4',title:'电话',width:80}
+		]],
+		columns:[[
+			{field:'opt',title:'Operation',width:100,align:'center',
+				formatter:function(value,rec){
+					var data = rec.code;
+					return '<span style="color:red"><input type="button" value="Delete" onclick="deletefunction('+data+');"></span>';
+				}
+			}
 		]],
 		pagination:true,
 		rownumbers:true,
@@ -50,21 +50,10 @@ $(function(){
 				$('#btnsave').linkbutton('enable');
 				alert('cut')
 			}
-		},'-',{
-			id:'btnsave',
-			text:'Save',
-			disabled:true,
-			iconCls:'icon-save',
-			handler:function(){
-				$('#btnsave').linkbutton('disable');
-				alert('save')
-			}
 		}]
 	});
-	var p = $('#test').datagrid('getPager');
-	$(p).pagination({
-		onBeforeRefresh:function(){
-			alert('before refresh');
-		}
-	});
 });
+function deletefunction(data)
+{
+	alert(data);
+}

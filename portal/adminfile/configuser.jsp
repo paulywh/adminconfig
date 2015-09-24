@@ -4,11 +4,11 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<script type="text/javascript" src="adminfile/js/jquery-1.4.2.min.js"></script>
-<script type="text/javascript" src="adminfile/js/jquery.easyui.min-1.2.0.js"></script>
-<script type="text/javascript" src="adminfile/js/configuser.js"></script>
-<link rel="stylesheet" type="text/css" href="adminfile/js/themes/icon.css" />
-<link rel="stylesheet" type="text/css" href="adminfile/js/themes/default/easyui.css" />
+<script type="text/javascript" src="<%=request.getContextPath()%>/adminfile/js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/adminfile/js/jquery.easyui.min.js"></script>
+<script type="text/javascript" src="<%=request.getContextPath()%>/adminfile/js/configuser.js"></script>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/adminfile/js/themes/icon.css" />
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/adminfile/js/themes/default/easyui.css" />
 <title>configuser</title>
 </head>
 <body>

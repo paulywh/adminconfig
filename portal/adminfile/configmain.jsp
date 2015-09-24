@@ -17,7 +17,7 @@
 <link rel="stylesheet" type="text/css" href="adminfile/css/default.css" />
 <Style>
 #css3menu li{ float:left; list-style-type:none;}
-#css3menu li a{	color:#fff; padding-right:20px;}
+#css3menu li a{color:#fff; padding-right:20px;}
 #css3menu li a.active{color:yellow;}
 </style>
 <script type="text/javascript">
@@ -31,7 +31,7 @@ var _menus = <%=userlimitjson%>;
 </div>
 </noscript>
 <div region="north" split="true" border="false" style="overflow: hidden; height: 30px;
-        background: url(images/layout-browser-hd-bg.gif) #7f99be repeat-x center 50%;
+        background: url(adminfile/images/layout-browser-hd-bg.gif) #7f99be repeat-x center 50%;
         line-height: 20px;color: #fff; font-family: Verdana, 微软雅黑,黑体">
         <span style="float:right; padding-right:20px;" class="head">欢迎 xxxx <a href="#" id="editpass">修改密码</a> <a href="#" id="loginOut">安全退出</a></span>
 
