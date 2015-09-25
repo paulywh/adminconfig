@@ -13,18 +13,19 @@ $(function() {
 		remoteSort: false,
 		idField:'code',
 		frozenColumns:[[
+			
+		]],
+		columns:[[
+			{field:'code',title:'id',width:80,sortable:true},
+			{field:'name',title:'姓名',width:80},
+			{field:'addr',title:'性别',width:80},
+			{field:'col4',title:'电话',width:80},
 			{field:'image',title:'头像',width:80,align:'center',
 				formatter:function(value,rec){
 					var img = rec.img;
 					return '<img src="../upimage/'+img+'" />';
 				}
 			},
-			{field:'code',title:'id',width:80,sortable:true},
-			{field:'name',title:'姓名',width:80},
-			{field:'addr',title:'性别',width:80},
-			{field:'col4',title:'电话',width:80}
-		]],
-		columns:[[
 			{field:'opt',title:'Operation',width:100,align:'center',
 				formatter:function(value,rec){
 					var data = rec.code;
@@ -33,10 +34,10 @@ $(function() {
 			}
 		]],
 		pagination:true,
-		rownumbers:true,
+		rownumbers:false,
 		toolbar:[{
 			id:'btnadd',
-			text:'Add',
+			text:'增加用户',
 			iconCls:'icon-add',
 			handler:function(){
 				$('#btnsave').linkbutton('enable');
