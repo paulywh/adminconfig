@@ -8,4 +8,5 @@
 	</package>
 	
 	<include file="config/struts/struts-user.xml" />
+	<include file="config/struts/struts-app.xml" />
 </struts>
