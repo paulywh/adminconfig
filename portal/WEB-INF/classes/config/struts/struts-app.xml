@@ -2,7 +2,7 @@
 <!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "http://struts.apache.org/dtds/struts-2.1.dtd" >
 <struts>
 	<package name="center_app" extends="center_defaultStruts" namespace="/">
-		<action name="appgetdata" class="com.computercenter.service.appinterface.action.AppQuery" method="getuserdata">
+		<action name="appgetdata" class="appaction" method="getchangguandata">
 		</action>
 	</package>
 </struts>

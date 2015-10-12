@@ -4,4 +4,5 @@
 	<settings useStatementNamespaces="true" classInfoCacheEnabled="true"
 		enhancementEnabled="true" />
 	<sqlMap resource="config/database/t_user_sqlmap.xml"/> 
+	<sqlMap resource="config/database/t_app_sqlmap.xml"/> 
 </sqlMapConfig>

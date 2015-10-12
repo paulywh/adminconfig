@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="t_mc_appinfo">
+	<typeAlias alias="appbean" type="com.computercenter.service.appinterface.bean.MxDian" />
+    
+    <resultMap class="com.computercenter.service.appinterface.bean.MxDian" id="baseResultMap">
+    	<result column="ID" jdbcType="INTEGER" property="id"/>
+        <result column="CustomerId" jdbcType="INTEGER" property="customerid"/>
+	    <result column="LitImg" jdbcType="VARCHAR" property="litimg"/>
+	    <result column="DianMing" jdbcType="VARCHAR" property="dianming"/>
+	    <result column="XianXi" jdbcType="VARCHAR" property="xianxi"/>
+	    <result column="DiZhi" jdbcType="VARCHAR" property="dizhi"/>
+	    <result column="RegionID" jdbcType="INTEGER" property="regionid"/>
+	    <result column="Tpl" jdbcType="INTEGER" property="tpl"/>
+	    <result column="Phone" jdbcType="VARCHAR" property="phone"/>
+	    <result column="Tips" jdbcType="INTEGER" property="tips"/>
+	    <result column="Level" jdbcType="INTEGER" property="level"/>
+	    <result column="LBSX" jdbcType="VARCHAR" property="lbsx"/>
+	    <result column="LBSY" jdbcType="VARCHAR" property="lbsy"/>
+	    <result column="OpenTime" jdbcType="VARCHAR" property="opentime"/>
+	    <result column="CloseTime" jdbcType="VARCHAR" property="closetime"/>
+	    <result column="weixincode" jdbcType="VARCHAR" property="weixincode"/>
+	    <result column="appcode" jdbcType="VARCHAR" property="appcode"/>
+	    <result column="Class" jdbcType="VARCHAR" property="classes"/>
+	    <result column="pay_way" jdbcType="INTEGER" property="pay_way"/>
+	    <result column="Price" jdbcType="Float" property="price"/>
+	    <result column="YuHuiPrice" jdbcType="Float" property="yuhuiprice"/>
+    </resultMap>
+    
+    <select id="queryappcginfo" parameterClass="java.util.Map" resultMap="baseResultMap">
+     <![CDATA[ 
+        select * from mx_dian order by id limit #starpage#,#endpage#
+     ]]>
+    </select>
+</sqlMap>

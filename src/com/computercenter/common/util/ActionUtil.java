@@ -21,16 +21,30 @@ public class ActionUtil
     public static void resultData(String data)
     {
         HttpServletResponse response=ServletActionContext.getResponse();
-        try
+        response.setContentType("text/json");
+        response.setCharacterEncoding("UTF-8");
+        response.setStatus(HttpServletResponse.SC_OK);
+        response.setHeader("Server", "Node");
+        PrintWriter out = null;
+        try {
+            out = response.getWriter();
+            out.print(data.toString());
+        } 
+        catch (IOException e) 
         {
-            PrintWriter out = response.getWriter();
-            out.println(data);
-            out.flush();
-            out.close();
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
+            try
+            {
+                throw e;
+            }
+            catch (IOException e1)
+            {
+                e1.printStackTrace();
+            }
+        } finally {
+            try {
+                out.close();
+            } catch (Exception e) {
+            }
         }
     }
     
