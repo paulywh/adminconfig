@@ -3,7 +3,7 @@
 <sqlMap namespace="t_mc_appinfo">
 	<typeAlias alias="appbean" type="com.computercenter.service.appinterface.bean.MxDian" />
     
-    <resultMap class="com.computercenter.service.appinterface.bean.MxDian" id="baseResultMap">
+    <resultMap class="com.computercenter.service.appinterface.bean.MxDian" id="baseResultdianMap">
     	<result column="ID" jdbcType="INTEGER" property="id"/>
         <result column="CustomerId" jdbcType="INTEGER" property="customerid"/>
 	    <result column="LitImg" jdbcType="VARCHAR" property="litimg"/>
@@ -33,7 +33,7 @@
 	    <result column="XinXi" jdbcType="VARCHAR" property="xinxi"/>
 	    <result column="LitImg" jdbcType="VARCHAR" property="litimg"/>
 	    <result column="ShowImg" jdbcType="VARCHAR" property="showimg"/>
-	    <result column="FlID" jdbcType="INTEGER" property="flid"/>
+	    <result column="FlID" jdbcType="VARCHAR" property="flid"/>
 	    <result column="DianID" jdbcType="INTEGER" property="dianid"/>
 	    <result column="Type" jdbcType="INTEGER" property="type"/>
 	    <result column="Num" jdbcType="VARCHAR" property="num"/>
@@ -48,9 +48,47 @@
 	    <result column="CiShu" jdbcType="VARCHAR" property="cishu"/>
     </resultMap>
     
-    <select id="queryappcginfo" parameterClass="java.util.Map" resultMap="baseResultMap">
+    <resultMap class="com.computercenter.service.appinterface.bean.MxChangdiSort" id="baseResultCdSortMap">
+    	<result column="ID" jdbcType="INTEGER" property="id"/>
+        <result column="Key" jdbcType="VARCHAR" property="Key"/>
+	    <result column="Value" jdbcType="VARCHAR" property="value"/>
+	    <result column="Order" jdbcType="INTEGER" property="order"/>
+    </resultMap>
+    
+    <resultMap class="com.computercenter.service.appinterface.bean.MxChangCi" id="baseResultCCMap">
+    	<result column="ID" jdbcType="INTEGER" property="id"/>
+        <result column="ChangDiID" jdbcType="INTEGER" property="changdiid"/>
+	    <result column="Name" jdbcType="VARCHAR" property="name"/>
+	    <result column="StartTime" jdbcType="INTEGER" property="starttime"/>
+	    <result column="EndTime" jdbcType="INTEGER" property="endtime"/>
+	    <result column="Price" jdbcType="Float" property="price"/>
+	    <result column="YuYueZhuangTai" jdbcType="INTEGER" property="yuyuezhuangtai"/>
+	    <result column="Type" jdbcType="INTEGER" property="type"/>
+	    <result column="WeekDay" jdbcType="VARCHAR" property="weekday"/>
+	    <result column="YuE" jdbcType="INTEGER" property="yue"/>
+	    <result column="RenShu" jdbcType="INTEGER" property="renshu"/>
+	    <result column="CiShu" jdbcType="INTEGER" property="cishu"/>
+    </resultMap>
+    
+    <select id="queryappcdinfo" parameterClass="java.util.Map" resultMap="baseResultCdMap">
      <![CDATA[ 
-        select * from mx_dian order by id limit #starpage#,#endpage#
+        select * from mx_changdi order by id limit #starpage#,#endpage#
+     ]]>
+    </select>
+    
+    <select id="querydianbydianid" parameterClass="java.lang.Integer" resultMap="baseResultdianMap">
+     <![CDATA[ 
+        select * from mx_dian where id = #dianid#
+     ]]>
+    </select>
+    
+    <select id="querysortbysortkey" parameterClass="java.lang.String" resultMap="baseResultCdSortMap">
+        select * from mx_changdi_sort where `Key` = #sortkey#
+    </select>
+    
+    <select id="querychangcibychangdiid" parameterClass="java.lang.Integer" resultMap="baseResultCCMap">
+     <![CDATA[ 
+        select * from mx_changci where ChangDiID = #changdiid#
      ]]>
     </select>
 </sqlMap>

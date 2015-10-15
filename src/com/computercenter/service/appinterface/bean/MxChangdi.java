@@ -11,10 +11,10 @@ public class MxChangdi implements Serializable{
     private String xinxi;
     private String litimg;
     private String showimg;
-    private int flid;
+    private String flid;
     private int dianid;
     private int type;
-    private int num;
+    private String num;
     private String sort;
     private String content;
     private String opentime;
@@ -52,10 +52,12 @@ public class MxChangdi implements Serializable{
     public void setShowimg(String showimg) {
         this.showimg = showimg;
     }
-    public int getFlid() {
+    public String getFlid()
+    {
         return flid;
     }
-    public void setFlid(int flid) {
+    public void setFlid(String flid)
+    {
         this.flid = flid;
     }
     public int getDianid() {
@@ -70,10 +72,12 @@ public class MxChangdi implements Serializable{
     public void setType(int type) {
         this.type = type;
     }
-    public int getNum() {
+    public String getNum()
+    {
         return num;
     }
-    public void setNum(int num) {
+    public void setNum(String num)
+    {
         this.num = num;
     }
     public String getSort() {
