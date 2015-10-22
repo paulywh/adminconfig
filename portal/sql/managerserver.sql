@@ -102,3 +102,48 @@ CREATE TABLE `config_usertable_menusgroup` (
 -- Records of config_usertable_menusgroup
 -- ----------------------------
 INSERT INTO `config_usertable_menusgroup` VALUES ('2', '0', '3');
+
+DROP TABLE IF EXISTS `config_jianshenfang`;
+CREATE TABLE `config_jianshenfang`(
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(30) NOT NULL COMMENT '场馆名称',
+  `cgalert` varchar(120) NOT NULL COMMENT '场馆描述性文字',
+  `titleimg` varchar(60) DEFAULT NULL COMMENT '场馆头像',
+  `bodyimg` varchar(150) DEFAULT NULL COMMENT '场馆其他照片',
+  `opentime` int(11) DEFAULT NULL COMMENT '开门时间',
+  `closetime` int(11) NOT NULL COMMENT '关门时间',
+  `address` varchar(120) NOT NULL COMMENT '场馆地址',
+  `phone` varchar(30) NOT NULL COMMENT '场馆联系方式',
+  `level` int(11) NOT NULL COMMENT '场馆等级',
+  `lbsx` varchar(10) NOT NULL COMMENT 'x',
+  `lbsy` varchar(10) NOT NULL COMMENT 'y',
+  `oldprice` int(11) NOT NULL COMMENT '场馆原价',
+  `newprice` int(11) NOT NULL COMMENT '场馆优惠价',
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
+
+INSERT INTO `config_jianshenfang` VALUES ('1', '新生健身（北苑店）', '朝阳区朝阳区北苑东路山水蓝维小区(勇士营郊野公园西门对面)', '20150626163702_16630.jpg', '20150617223300_79353.jpg;20150617223309_66538.jpg;', '10:00', '22:00','朝阳区朝阳区北苑东路山水蓝维小区(勇士营郊野公园西门对面)','010-57958688','1','40.036751', '116.441098','44', '30');
+
+DROP TABLE IF EXISTS `config_jianshenfang_service`;
+CREATE TABLE `config_jianshenfang_service` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(2) CHARACTER SET utf8 DEFAULT NULL COMMENT '服务名称',
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+INSERT INTO `config_jianshenfang_service` VALUES ('1', '健身');
+INSERT INTO `config_jianshenfang_service` VALUES ('2', '游泳');
+INSERT INTO `config_jianshenfang_service` VALUES ('3', '私教');
+INSERT INTO `config_jianshenfang_service` VALUES ('4', '瑜珈');
+INSERT INTO `config_jianshenfang_service` VALUES ('5', '免费水果');
+INSERT INTO `config_jianshenfang_service` VALUES ('7', '停车场');
+INSERT INTO `config_jianshenfang_service` VALUES ('8', 'WiFi');
+INSERT INTO `config_jianshenfang_service` VALUES ('9', 'SPA');
+INSERT INTO `config_jianshenfang_service` VALUES ('10', '空气净化器');
+
+DROP TABLE IF EXISTS `config_jsf_jsfservice_table`;
+CREATE TABLE `config_jsf_jsfservice_table` (
+  `jsfid` int(11) NOT NULL,
+  `jsfserviceid` int(11) NOT NULL
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+

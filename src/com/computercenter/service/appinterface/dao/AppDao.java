@@ -1,21 +1,17 @@
 package com.computercenter.service.appinterface.dao;
 
 import java.util.List;
-
 import com.computercenter.service.appinterface.bean.MxChangCi;
-import com.computercenter.service.appinterface.bean.MxChangdi;
-import com.computercenter.service.appinterface.bean.MxChangdiSort;
-import com.computercenter.service.appinterface.bean.MxDian;
+import com.computercenter.service.bean.JianShenFang;
+import com.computercenter.service.bean.JsfService;
 
 public interface AppDao
 {
-    //获取场馆信息
-    List<MxChangdi> getChangGuanInfo(int pageNo,int pageSize);
+    //获取健身房信息
+    List<JianShenFang> getChangGuanInfo(int pageNo,int pageSize);
     
-    //二次获取场馆信息
-    MxDian getDianData(int dianid);
-    
-    MxChangdiSort getChangDiSort(String sortkey);
+    //健身房相关服务
+    List<JsfService> getJsfService(int id);
     
     List<MxChangCi> getChangCiList(int changdiid);
 }

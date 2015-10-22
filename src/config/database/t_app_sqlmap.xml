@@ -3,92 +3,37 @@
 <sqlMap namespace="t_mc_appinfo">
 	<typeAlias alias="appbean" type="com.computercenter.service.appinterface.bean.MxDian" />
     
-    <resultMap class="com.computercenter.service.appinterface.bean.MxDian" id="baseResultdianMap">
-    	<result column="ID" jdbcType="INTEGER" property="id"/>
-        <result column="CustomerId" jdbcType="INTEGER" property="customerid"/>
-	    <result column="LitImg" jdbcType="VARCHAR" property="litimg"/>
-	    <result column="DianMing" jdbcType="VARCHAR" property="dianming"/>
-	    <result column="XianXi" jdbcType="VARCHAR" property="xianxi"/>
-	    <result column="DiZhi" jdbcType="VARCHAR" property="dizhi"/>
-	    <result column="RegionID" jdbcType="INTEGER" property="regionid"/>
-	    <result column="Tpl" jdbcType="INTEGER" property="tpl"/>
-	    <result column="Phone" jdbcType="VARCHAR" property="phone"/>
-	    <result column="Tips" jdbcType="INTEGER" property="tips"/>
-	    <result column="Level" jdbcType="INTEGER" property="level"/>
-	    <result column="LBSX" jdbcType="VARCHAR" property="lbsx"/>
-	    <result column="LBSY" jdbcType="VARCHAR" property="lbsy"/>
-	    <result column="OpenTime" jdbcType="VARCHAR" property="opentime"/>
-	    <result column="CloseTime" jdbcType="VARCHAR" property="closetime"/>
-	    <result column="weixincode" jdbcType="VARCHAR" property="weixincode"/>
-	    <result column="appcode" jdbcType="VARCHAR" property="appcode"/>
-	    <result column="Class" jdbcType="VARCHAR" property="classes"/>
-	    <result column="pay_way" jdbcType="INTEGER" property="pay_way"/>
-	    <result column="Price" jdbcType="Float" property="price"/>
-	    <result column="YuHuiPrice" jdbcType="Float" property="yuhuiprice"/>
+    <resultMap class="com.computercenter.service.bean.JianShenFang" id="baseResultJSF">
+    	<result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+	    <result column="cgalert" jdbcType="VARCHAR" property="cgalert"/>
+	    <result column="titleimg" jdbcType="VARCHAR" property="titleimg"/>
+	    <result column="bodyimg" jdbcType="VARCHAR" property="bodyimg"/>
+	    <result column="opentime" jdbcType="INTEGER" property="opentime"/>
+	    <result column="closetime" jdbcType="INTEGER" property="closetime"/>
+	    <result column="address" jdbcType="VARCHAR" property="address"/>
+	    <result column="phone" jdbcType="VARCHAR" property="phone"/>
+	    <result column="level" jdbcType="INTEGER" property="level"/>
+	    <result column="lbsx" jdbcType="VARCHAR" property="lbsx"/>
+	    <result column="lbsy" jdbcType="VARCHAR" property="lbsy"/>
+	    <result column="oldprice" jdbcType="INTEGER" property="oldprice"/>
+	    <result column="newprice" jdbcType="INTEGER" property="newprice"/>
     </resultMap>
     
-    <resultMap class="com.computercenter.service.appinterface.bean.MxChangdi" id="baseResultCdMap">
-    	<result column="ID" jdbcType="INTEGER" property="id"/>
-        <result column="Name" jdbcType="VARCHAR" property="name"/>
-	    <result column="XinXi" jdbcType="VARCHAR" property="xinxi"/>
-	    <result column="LitImg" jdbcType="VARCHAR" property="litimg"/>
-	    <result column="ShowImg" jdbcType="VARCHAR" property="showimg"/>
-	    <result column="FlID" jdbcType="VARCHAR" property="flid"/>
-	    <result column="DianID" jdbcType="INTEGER" property="dianid"/>
-	    <result column="Type" jdbcType="INTEGER" property="type"/>
-	    <result column="Num" jdbcType="VARCHAR" property="num"/>
-	    <result column="Sort" jdbcType="INTEGER" property="sort"/>
-	    <result column="Content" jdbcType="VARCHAR" property="content"/>
-	    <result column="OpenTime" jdbcType="VARCHAR" property="opentime"/>
-	    <result column="CloseTime" jdbcType="VARCHAR" property="closetime"/>
-	    <result column="OpenTime" jdbcType="VARCHAR" property="opentime"/>
-	    <result column="CloseTime" jdbcType="VARCHAR" property="closetime"/>
-	    <result column="PS" jdbcType="VARCHAR" property="ps"/>
-	    <result column="Check" jdbcType="VARCHAR" property="check"/>
-	    <result column="CiShu" jdbcType="VARCHAR" property="cishu"/>
+    <resultMap class="com.computercenter.service.bean.JsfService" id="baseResultJsfserver">
+    	<result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
     </resultMap>
     
-    <resultMap class="com.computercenter.service.appinterface.bean.MxChangdiSort" id="baseResultCdSortMap">
-    	<result column="ID" jdbcType="INTEGER" property="id"/>
-        <result column="Key" jdbcType="VARCHAR" property="Key"/>
-	    <result column="Value" jdbcType="VARCHAR" property="value"/>
-	    <result column="Order" jdbcType="INTEGER" property="order"/>
-    </resultMap>
-    
-    <resultMap class="com.computercenter.service.appinterface.bean.MxChangCi" id="baseResultCCMap">
-    	<result column="ID" jdbcType="INTEGER" property="id"/>
-        <result column="ChangDiID" jdbcType="INTEGER" property="changdiid"/>
-	    <result column="Name" jdbcType="VARCHAR" property="name"/>
-	    <result column="StartTime" jdbcType="INTEGER" property="starttime"/>
-	    <result column="EndTime" jdbcType="INTEGER" property="endtime"/>
-	    <result column="Price" jdbcType="Float" property="price"/>
-	    <result column="YuYueZhuangTai" jdbcType="INTEGER" property="yuyuezhuangtai"/>
-	    <result column="Type" jdbcType="INTEGER" property="type"/>
-	    <result column="WeekDay" jdbcType="VARCHAR" property="weekday"/>
-	    <result column="YuE" jdbcType="INTEGER" property="yue"/>
-	    <result column="RenShu" jdbcType="INTEGER" property="renshu"/>
-	    <result column="CiShu" jdbcType="INTEGER" property="cishu"/>
-    </resultMap>
-    
-    <select id="queryappcdinfo" parameterClass="java.util.Map" resultMap="baseResultCdMap">
+    <select id="queryappcdinfo" parameterClass="java.util.Map" resultMap="baseResultJSF">
      <![CDATA[ 
-        select * from mx_changdi order by id limit #starpage#,#endpage#
+        select * from config_jianshenfang order by id limit #starpage#,#endpage#
      ]]>
     </select>
     
-    <select id="querydianbydianid" parameterClass="java.lang.Integer" resultMap="baseResultdianMap">
+    <select id="queryjsfservice" parameterClass="java.lang.Integer" resultMap="baseResultJsfserver">
      <![CDATA[ 
-        select * from mx_dian where id = #dianid#
-     ]]>
-    </select>
-    
-    <select id="querysortbysortkey" parameterClass="java.lang.String" resultMap="baseResultCdSortMap">
-        select * from mx_changdi_sort where `Key` = #sortkey#
-    </select>
-    
-    <select id="querychangcibychangdiid" parameterClass="java.lang.Integer" resultMap="baseResultCCMap">
-     <![CDATA[ 
-        select * from mx_changci where ChangDiID = #changdiid#
+        select * from config_jianshenfang_service where id in(select jsfserviceid from config_jsf_jsfservice_table where jsfid = #jsfid#);
      ]]>
     </select>
 </sqlMap>

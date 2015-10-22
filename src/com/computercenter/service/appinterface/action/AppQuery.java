@@ -15,6 +15,8 @@ import com.computercenter.service.appinterface.bean.MxChangdi;
 import com.computercenter.service.appinterface.bean.MxChangdiSort;
 import com.computercenter.service.appinterface.bean.MxDian;
 import com.computercenter.service.appinterface.dao.AppDao;
+import com.computercenter.service.bean.JianShenFang;
+import com.computercenter.service.bean.JsfService;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class AppQuery extends ActionSupport implements RequestAware
@@ -32,48 +34,42 @@ public class AppQuery extends ActionSupport implements RequestAware
     {
         System.out.println(uuid);
         JSONObject json = new JSONObject();
-        if(pageNo == 0 || pageSize == 0)
-        {
-            pageNo = 1;
-            pageSize = 10;
-        }
-        List<MxChangdi> changguandata = appDao.getChangGuanInfo(pageNo, pageSize);
+        List<JianShenFang> jsflist = appDao.getChangGuanInfo(pageNo, pageSize);
         List<ChangDiBean> cdblist = new ArrayList<ChangDiBean>();
-        for(MxChangdi cd : changguandata)
+        for(JianShenFang cd : jsflist)
         {
             ChangDiBean cdb = new ChangDiBean();
             
             cdb.setChangdiname(cd.getName());
-            MxDian md = appDao.getDianData(cd.getDianid());
-//            cdb.setHeadimg(headimg);
-            cdb.setLbsx(md.getLbsx());
-            cdb.setLbsy(md.getLbsy());
-            cdb.setNewprice(md.getPrice());
-            cdb.setOldprice(md.getYuhuiprice());
-            cdb.setAddress(md.getDizhi());
-            cdb.setStarnum(7);
+            cdb.setHeadimg(cd.getTitleimg());
+            cdb.setLbsx(cd.getLbsx());
+            cdb.setLbsy(cd.getLbsy());
+            cdb.setNewprice(cd.getNewprice());
+            cdb.setOldprice(cd.getOldprice());
+            cdb.setAddress(cd.getAddress());
+            cdb.setStarnum(cd.getLevel());
             
-            String[] sortlist = cd.getSort().split("-");
-            String[] sortstr = new String[sortlist.length];
-            for(int i=0;i<sortlist.length;i++)
+            List<JsfService> jsfservicelist = appDao.getJsfService(cd.getId());
+            String[] sortstr = new String[jsfservicelist.size()];
+            for(int i=0;i<jsfservicelist.size();i++)
             {
-                String sort = sortlist[i];
-                MxChangdiSort scrbean = appDao.getChangDiSort(sort);
-                sortstr[i] = scrbean.getValue();
+                JsfService jsfinfo = jsfservicelist.get(i);
+                sortstr[i] = jsfinfo.getName();
             }
             cdb.setSort(sortstr);
             
+            
             List<ChangDiType> cdtlist = new ArrayList<ChangDiType>(); 
-            List<MxChangCi> mcclist = appDao.getChangCiList(cd.getId());
-            for(MxChangCi mcc : mcclist)
-            {
-                ChangDiType cdt = new ChangDiType();
-                cdt.setType(mcc.getName());
-                cdt.setStartime(mcc.getStarttime());
-                cdt.setEndtime(mcc.getEndtime());
-                cdt.setRmb(mcc.getPrice());
-                cdtlist.add(cdt);
-            }
+//            List<MxChangCi> mcclist = appDao.getChangCiList(cd.getId());
+//            for(MxChangCi mcc : mcclist)
+//            {
+//                ChangDiType cdt = new ChangDiType();
+//                cdt.setType(mcc.getName());
+//                cdt.setStartime(mcc.getStarttime());
+//                cdt.setEndtime(mcc.getEndtime());
+//                cdt.setRmb(mcc.getPrice());
+//                cdtlist.add(cdt);
+//            }
             
             cdb.setCdtype(cdtlist);
             cdblist.add(cdb);
