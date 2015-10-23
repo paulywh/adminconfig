@@ -147,3 +147,23 @@ CREATE TABLE `config_jsf_jsfservice_table` (
   `jsfserviceid` int(11) NOT NULL
 ) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
 
+DROP TABLE IF EXISTS `config_ jianshenfang_course`;
+CREATE TABLE `config_ jianshenfang_course` (
+  `courseid` int(11) NOT NULL,
+  `name` varchar(30) NOT NULL COMMENT '课程名称',
+  `desc` varchar(120) NOT NULL COMMENT '课程描述',
+  `price` int(11) NOT NULL COMMENT '课程价格',
+  `flagtry` int(11) NOT NULL COMMENT '每个人只能去一次(体验课标示)1是0否',
+  `limitpeople` int(11) NOT NULL COMMENT '课程是否限制人数,不限制为0',
+  `settype` int(11) NOT NULL COMMENT '预约类型0开始前多久不可以预约1当天不可以预约2结束前多久不可以预约',
+  `setvalue` int(11) NOT NULL COMMENT '预约值0:H 1:D 2:H',
+  `flagcancle` int(11) NOT NULL COMMENT '是否可以取消1是0否',
+  `cancletime` int(11) NOT NULL COMMENT '开始前n小时可以取消',
+  PRIMARY KEY (`courseid`)
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `config_jsf_jsfcourse_table`;
+CREATE TABLE `config_jsf_jsfcourse_table` (
+  `id` int(11) NOT NULL,
+  `courseid` int(11) NOT NULL,
+) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=latin1;
