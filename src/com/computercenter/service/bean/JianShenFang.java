@@ -19,6 +19,24 @@ public class JianShenFang implements Serializable
     private String lbsy;
     private int oldprice;
     private int newprice;
+    private int count;
+    private int yearprice;
+    public int getYearprice()
+    {
+        return yearprice;
+    }
+    public void setYearprice(int yearprice)
+    {
+        this.yearprice = yearprice;
+    }
+    public int getCount()
+    {
+        return count;
+    }
+    public void setCount(int count)
+    {
+        this.count = count;
+    }
     public int getId()
     {
         return id;

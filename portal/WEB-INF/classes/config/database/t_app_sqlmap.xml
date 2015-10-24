@@ -18,6 +18,8 @@
 	    <result column="lbsy" jdbcType="VARCHAR" property="lbsy"/>
 	    <result column="oldprice" jdbcType="INTEGER" property="oldprice"/>
 	    <result column="newprice" jdbcType="INTEGER" property="newprice"/>
+	    <result column="count" jdbcType="INTEGER" property="count"/>
+	    <result column="yearprice" jdbcType="INTEGER" property="yearprice"/>
     </resultMap>
     
     <resultMap class="com.computercenter.service.bean.JsfService" id="baseResultJsfserver">
@@ -25,15 +27,87 @@
         <result column="name" jdbcType="VARCHAR" property="name"/>
     </resultMap>
     
+    <resultMap class="com.computercenter.service.bean.User" id="baseResultUser">
+    	<result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="udid" jdbcType="VARCHAR" property="udid"/>
+        <result column="code" jdbcType="VARCHAR" property="code"/>
+        <result column="token" jdbcType="VARCHAR" property="token"/>
+        <result column="headimg" jdbcType="VARCHAR" property="headimg"/>
+    </resultMap>
+    
+    <resultMap class="com.computercenter.service.appinterface.bean.Course" id="baseResultCourse">
+    	<result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="desc" jdbcType="VARCHAR" property="desc"/>
+        <result column="price" jdbcType="FLOAT" property="price"/>
+        <result column="flagtry" jdbcType="INTEGER" property="flagtry"/>
+        <result column="settype" jdbcType="INTEGER" property="settype"/>
+        <result column="setvalue" jdbcType="INTEGER" property="setvalue"/>
+        <result column="flagcancle" jdbcType="INTEGER" property="flagcancle"/>
+        <result column="cancletype" jdbcType="INTEGER" property="cancletype"/>
+        <result column="cancletime" jdbcType="INTEGER" property="cancletime"/>
+        <result column="starttime" jdbcType="INTEGER" property="starttime"/>
+        <result column="endtime" jdbcType="INTEGER" property="endtime"/>
+    </resultMap>
+    
+    <resultMap class="com.computercenter.service.bean.JSFBbs" id="baseResultjsfbbs">
+    	<result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="jsfid" jdbcType="INTEGER" property="jsfid"/>
+        <result column="userid" jdbcType="INTEGER" property="userid"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="level" jdbcType="INTEGER" property="level"/>
+        <result column="content" jdbcType="VARCHAR" property="content"/>
+    </resultMap>
+    
+    <typeAlias alias="paruserBean"
+		type="com.computercenter.service.bean.User" />
+		
     <select id="queryappcdinfo" parameterClass="java.util.Map" resultMap="baseResultJSF">
      <![CDATA[ 
         select * from config_jianshenfang order by id limit #starpage#,#endpage#
      ]]>
     </select>
     
+    <select id="queryjianshenfangbyid" parameterClass="java.lang.Integer" resultMap="baseResultJSF">
+     <![CDATA[ 
+        select * from config_jianshenfang where id = #jsfid#
+     ]]>
+    </select>
+    
     <select id="queryjsfservice" parameterClass="java.lang.Integer" resultMap="baseResultJsfserver">
      <![CDATA[ 
-        select * from config_jianshenfang_service where id in(select jsfserviceid from config_jsf_jsfservice_table where jsfid = #jsfid#);
+        select * from config_jianshenfang_service where id in(select jsfserviceid from config_jsf_jsfservice_table where id = #jsfid#);
+     ]]>
+    </select>
+    
+    <insert id="registerStep1" parameterClass="paruserBean">
+     <![CDATA[ 
+        insert into config_user(phone,udid,code,token,headimg)values(#phone:String#,#udid:String#,#code:Integer#,#token:String#,#headimg:String#);
+     ]]>
+    </insert>
+    
+    <select id="checkcode" parameterClass="java.util.Map" resultMap="baseResultUser">
+     <![CDATA[ 
+        select * from config_user where phone = #phone# and code = #code#
+     ]]>
+    </select>
+    
+    <update id="updateUserToken" parameterClass="java.util.Map">
+     <![CDATA[ 
+		update config_user set token=#token# where phone=#phone#
+	 ]]>
+	</update>
+	
+	<select id="querychangcibychangdiid" parameterClass="java.lang.Integer" resultMap="baseResultCourse">
+     <![CDATA[ 
+        select * from config_jianshenfang_course where id = #changdiid#;
+     ]]>
+    </select>
+    
+    <select id="queryjsfBBSList" parameterClass="java.lang.Integer" resultMap="baseResultjsfbbs">
+     <![CDATA[ 
+        select * from config_jsfbbs where id = #jsfid#;
      ]]>
     </select>
 </sqlMap>

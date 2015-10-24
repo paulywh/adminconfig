@@ -4,5 +4,7 @@
 	<package name="center_app" extends="center_defaultStruts" namespace="/">
 		<action name="appgetdata" class="appaction" method="getchangguandata">
 		</action>
+		<action name="appgetdata" class="appaction" method="sendMessageForReg">
+		</action>
 	</package>
 </struts>

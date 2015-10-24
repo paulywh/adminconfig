@@ -1,7 +1,11 @@
 package com.computercenter.service.appinterface.appbean;
 
 import java.util.List;
+import java.util.Map;
 
+import com.computercenter.service.bean.JSFBbs;
+
+//客户端场馆信息
 public class ChangDiBean
 {
     private String changdiname;//场地名称
@@ -12,9 +16,44 @@ public class ChangDiBean
     private String lbsx;//坐标
     private String lbsy;//坐标
     private String headimg;//头像
+    private int yearprice;//年卡
+    private String phone;//场馆电话
+    private int bbscount;//评论数
     private String[] sort;//游泳停车那一列包含
-    private List<ChangDiType> cdtype;
-    
+    private Map<String,List<ChangDiType>> mapcdtype;
+    private List<JSFBbs> jsfbbslist;//健身房留言列表
+    public int getYearprice()
+    {
+        return yearprice;
+    }
+    public void setYearprice(int yearprice)
+    {
+        this.yearprice = yearprice;
+    }
+    public String getPhone()
+    {
+        return phone;
+    }
+    public int getBbscount()
+    {
+        return bbscount;
+    }
+    public void setBbscount(int bbscount)
+    {
+        this.bbscount = bbscount;
+    }
+    public void setPhone(String phone)
+    {
+        this.phone = phone;
+    }
+    public List<JSFBbs> getJsfbbslist()
+    {
+        return jsfbbslist;
+    }
+    public void setJsfbbslist(List<JSFBbs> jsfbbslist)
+    {
+        this.jsfbbslist = jsfbbslist;
+    }
     public String getLbsx()
     {
         return lbsx;
@@ -87,12 +126,12 @@ public class ChangDiBean
     {
         this.sort = sort;
     }
-    public List<ChangDiType> getCdtype()
+    public Map<String, List<ChangDiType>> getMapcdtype()
     {
-        return cdtype;
+        return mapcdtype;
     }
-    public void setCdtype(List<ChangDiType> cdtype)
+    public void setMapcdtype(Map<String, List<ChangDiType>> mapcdtype)
     {
-        this.cdtype = cdtype;
+        this.mapcdtype = mapcdtype;
     }
 }

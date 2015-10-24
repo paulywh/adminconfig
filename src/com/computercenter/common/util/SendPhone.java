@@ -65,4 +65,12 @@ public class SendPhone
         
         return "";
     }
+    
+    //发送用户短信并返回6为数字
+    public static String sendPhoneForHuoDong(String phone)
+    {
+        //TODO
+        return "112231";
+    }
+    
 }
