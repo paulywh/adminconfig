@@ -34,6 +34,7 @@
         <result column="code" jdbcType="VARCHAR" property="code"/>
         <result column="token" jdbcType="VARCHAR" property="token"/>
         <result column="headimg" jdbcType="VARCHAR" property="headimg"/>
+        <result column="getcodetime" jdbcType="VARCHAR" property="getcodetime"/>
     </resultMap>
     
     <resultMap class="com.computercenter.service.appinterface.bean.Course" id="baseResultCourse">
@@ -60,6 +61,12 @@
         <result column="content" jdbcType="VARCHAR" property="content"/>
     </resultMap>
     
+    <resultMap class="com.computercenter.service.appinterface.bean.JianShenFangCourseTable" id="baseResultjsfcoursetable">
+    	<result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="courseid" jdbcType="INTEGER" property="courseid"/>
+        <result column="week" jdbcType="INTEGER" property="week"/>
+    </resultMap>
+    
     <typeAlias alias="paruserBean"
 		type="com.computercenter.service.bean.User" />
 		
@@ -83,9 +90,15 @@
     
     <insert id="registerStep1" parameterClass="paruserBean">
      <![CDATA[ 
-        insert into config_user(phone,udid,code,token,headimg)values(#phone:String#,#udid:String#,#code:Integer#,#token:String#,#headimg:String#);
+        insert into config_user(phone,udid,code,token,headimg,getcodetime)values(#phone:String#,#udid:String#,#code:Integer#,#token:String#,#headimg:String#,#getcodetime:Integer#);
      ]]>
     </insert>
+    
+    <select id="getuserbyphone" parameterClass="java.lang.String" resultMap="baseResultUser">
+     <![CDATA[ 
+        select * from config_user where phone = #phone#
+     ]]>
+    </select>
     
     <select id="checkcode" parameterClass="java.util.Map" resultMap="baseResultUser">
      <![CDATA[ 
@@ -99,15 +112,27 @@
 	 ]]>
 	</update>
 	
-	<select id="querychangcibychangdiid" parameterClass="java.lang.Integer" resultMap="baseResultCourse">
+	<update id="updateUserCode" parameterClass="java.util.Map">
      <![CDATA[ 
-        select * from config_jianshenfang_course where id = #changdiid#;
+		update config_user set code=#code# where phone=#phone#
+	 ]]>
+	</update>
+	
+	<select id="queryallcourse" resultMap="baseResultCourse">
+     <![CDATA[ 
+        select * from config_jianshenfang_course;
      ]]>
     </select>
     
     <select id="queryjsfBBSList" parameterClass="java.lang.Integer" resultMap="baseResultjsfbbs">
      <![CDATA[ 
         select * from config_jsfbbs where id = #jsfid#;
+     ]]>
+    </select>
+    
+    <select id="queryjsfcoursetable" parameterClass="java.lang.Integer" resultMap="baseResultjsfcoursetable">
+     <![CDATA[ 
+        select * from config_jsf_jsfcourse_table where id = #jsfid#;
      ]]>
     </select>
 </sqlMap>

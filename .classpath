@@ -90,5 +90,6 @@
 	<classpathentry kind="lib" path="portal/WEB-INF/lib/poi-ooxml-3.8-20120326.jar"/>
 	<classpathentry kind="lib" path="portal/WEB-INF/lib/poi-ooxml-schemas-3.8-20120326.jar"/>
 	<classpathentry kind="lib" path="portal/WEB-INF/lib/poi-scratchpad-3.8-20120326.jar"/>
+	<classpathentry kind="lib" path="portal/WEB-INF/lib/http.jar"/>
 	<classpathentry kind="output" path="portal/WEB-INF/classes"/>
 </classpath>

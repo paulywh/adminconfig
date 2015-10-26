@@ -8,14 +8,13 @@ import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.NameValuePair;
 import org.apache.commons.httpclient.methods.PostMethod;
 
+import com.bcloud.msg.http.HttpSender;
+
 public class SendPhone
 {
     public static void main(String[] args) throws HttpException, IOException
     {
-        double db = -1d;
-        double db1 = -1d;
-        System.out.println(db == db1);
-        //sendPhone("13718769723","我是好人");
+        sendPhoneForHuoDong("13718769723");
     }
     
     /**
@@ -25,33 +24,25 @@ public class SendPhone
      * @throws HttpException
      * @throws IOException
      */
-    public static String sendPhone(String phoneNumber,String testMessage) throws HttpException, IOException
+    private static String sendPhone(String phoneNumber,String testMessage) throws HttpException, IOException
     {
-        HttpClient client = new HttpClient();
-        PostMethod post = new PostMethod("http://utf8.sms.webchinese.cn");
-        post.addRequestHeader("Content-Type",
-                "application/x-www-form-urlencoded;charset=utf-8");//在头文件中设置转码
-        NameValuePair[] data = {new NameValuePair("Uid", "paul5-5"),
-                new NameValuePair("Key", "a688214a52ecfafc665c"),
-                new NameValuePair("smsMob", phoneNumber),
-                new NameValuePair("smsText", testMessage)};
-        post.setRequestBody(data);
-        
-        client.executeMethod(post);
-        Header[] headers = post.getResponseHeaders();
-        int statusCode = post.getStatusCode();
-        System.out.println("statusCode:" + statusCode);
-        
-        for (Header h : headers)
-        {
-            System.out.println(h.toString());
+        String uri = "http://222.73.117.158/msg/HttpBatchSendSM";//应用地址
+        String account = "huodong";//账号
+        String pswd = "Huodong123";//密码
+        String mobiles = phoneNumber;//手机号码，多个号码使用","分割
+        String content = "良辰有100种方法让你记住这个验证码：" + testMessage;//短信内容
+        boolean needstatus = true;//是否需要状态报告，需要true，不需要false
+        String product = null;//产品ID
+        String extno = null;//扩展码
+         
+        try {
+            String returnString = HttpSender.batchSend(uri, account, pswd, mobiles, content, needstatus, product, extno);
+            System.out.println(returnString);
+            return returnString;
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        String result = new String(post.getResponseBodyAsString()
-                .getBytes("utf-8"));
-        System.out.println(result);
-        
-        post.releaseConnection();
-        return result;
+        return null;
     }
     
     /**
@@ -69,8 +60,26 @@ public class SendPhone
     //发送用户短信并返回6为数字
     public static String sendPhoneForHuoDong(String phone)
     {
-        //TODO
-        return "112231";
+        String random = "111111";//getRandomStr();
+//        try
+//        {
+//            sendPhone(phone,random);
+//        }
+//        catch (HttpException e)
+//        {
+//            e.printStackTrace();
+//        }
+//        catch (IOException e)
+//        {
+//            e.printStackTrace();
+//        }
+        return random;
     }
     
+    public static String getRandomStr()
+    {
+        int i=(int)(Math.random()*1000000+100000); 
+        String messageCode = String.valueOf(i);
+        return messageCode;
+    }
 }

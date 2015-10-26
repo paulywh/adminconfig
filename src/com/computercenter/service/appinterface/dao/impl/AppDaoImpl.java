@@ -7,6 +7,7 @@ import java.util.Map;
 import org.springframework.orm.ibatis.support.SqlMapClientDaoSupport;
 
 import com.computercenter.service.appinterface.bean.Course;
+import com.computercenter.service.appinterface.bean.JianShenFangCourseTable;
 import com.computercenter.service.appinterface.dao.AppDao;
 import com.computercenter.service.bean.JSFBbs;
 import com.computercenter.service.bean.JianShenFang;
@@ -43,17 +44,33 @@ public class AppDaoImpl extends SqlMapClientDaoSupport implements AppDao
     }
 
     @Override
-    public List<Course> getChangCiList(int changdiid)
+    public List<Course> getCourseList()
     {
         @SuppressWarnings("unchecked")
-        List<Course> xcclist = (List<Course>)getSqlMapClientTemplate().queryForList("t_mc_appinfo.querychangcibychangdiid",changdiid);
+        List<Course> xcclist = (List<Course>)getSqlMapClientTemplate().queryForList("t_mc_appinfo.queryallcourse");
         return xcclist;
+    }
+    
+    @Override
+    public User getUserByPhone(String phone)
+    {
+        return (User)getSqlMapClientTemplate().queryForObject("t_mc_appinfo.getuserbyphone", phone);
     }
 
     @Override
     public boolean addUserDataStep1(User user)
     {
         getSqlMapClientTemplate().insert("t_mc_appinfo.registerStep1", user);
+        return true;
+    }
+    
+    @Override
+    public boolean updateUserCodeByPhone(String code,String phone)
+    {
+        Map<String,String> mappar = new HashMap<String,String>();
+        mappar.put("code",code);
+        mappar.put("phone",phone);
+        getSqlMapClientTemplate().update("t_mc_appinfo.updateUserCode", mappar);
         return true;
     }
 
@@ -83,5 +100,13 @@ public class AppDaoImpl extends SqlMapClientDaoSupport implements AppDao
         @SuppressWarnings("unchecked")
         List<JSFBbs> jsflist = (List<JSFBbs>)getSqlMapClientTemplate().queryForList("t_mc_appinfo.queryjsfBBSList", jsfid);
         return jsflist;
+    }
+
+    @Override
+    public List<JianShenFangCourseTable> getCourseByJSFId(int jsfid)
+    {
+        @SuppressWarnings("unchecked")
+        List<JianShenFangCourseTable> jsfsource = (List<JianShenFangCourseTable>)getSqlMapClientTemplate().queryForList("t_mc_appinfo.queryjsfcoursetable", jsfid);
+        return jsfsource;
     }
 }

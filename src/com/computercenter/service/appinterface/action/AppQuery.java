@@ -9,10 +9,14 @@ import org.apache.struts2.interceptor.RequestAware;
 
 import com.alibaba.fastjson.JSONObject;
 import com.computercenter.common.util.ActionUtil;
+import com.computercenter.common.util.DataUtil;
+import com.computercenter.common.util.ErrorContent;
 import com.computercenter.common.util.SendPhone;
+import com.computercenter.common.util.Tools;
 import com.computercenter.service.appinterface.appbean.ChangDiBean;
 import com.computercenter.service.appinterface.appbean.ChangDiType;
 import com.computercenter.service.appinterface.bean.Course;
+import com.computercenter.service.appinterface.bean.JianShenFangCourseTable;
 import com.computercenter.service.appinterface.bean.ResultBean;
 import com.computercenter.service.appinterface.dao.AppDao;
 import com.computercenter.service.bean.JSFBbs;
@@ -75,21 +79,7 @@ public class AppQuery extends ActionSupport implements RequestAware
                 sortstr[i] = jsfinfo.getName();
             }
             cdb.setSort(sortstr);
-            
-            
-            List<ChangDiType> cdtlist = new ArrayList<ChangDiType>(); 
-            List<Course> mcclist = appDao.getChangCiList(cd.getId());
-            for(Course mcc : mcclist)
-            {
-                ChangDiType cdt = new ChangDiType();
-                cdt.setType(mcc.getName());
-                cdt.setStartime(mcc.getStarttime());
-                cdt.setEndtime(mcc.getEndtime());
-                cdt.setRmb(mcc.getPrice());
-                cdtlist.add(cdt);
-            }
-            Map<String,List<ChangDiType>> mapcdtype = new HashMap<String,List<ChangDiType>>();
-            mapcdtype.put("6", cdtlist);
+            cdb.setMapcdtype(getCourseData(0,cd.getId()));
             cdblist.add(cdb);
         }
         sendResponse("0","",cdblist,"");
@@ -120,20 +110,9 @@ public class AppQuery extends ActionSupport implements RequestAware
             cdb.setStarnum(cd.getLevel());
             cdb.setPhone(cd.getPhone());
             cdb.setYearprice(cd.getYearprice());
-            List<ChangDiType> cdtlist = new ArrayList<ChangDiType>(); 
-            List<Course> mcclist = appDao.getChangCiList(cd.getId());
-            for(Course mcc : mcclist)
-            {
-                ChangDiType cdt = new ChangDiType();
-                cdt.setType(mcc.getName());
-                cdt.setStartime(mcc.getStarttime());
-                cdt.setEndtime(mcc.getEndtime());
-                cdt.setRmb(mcc.getPrice());
-                cdtlist.add(cdt);
-            }
-            Map<String,List<ChangDiType>> mapcdtype = new HashMap<String,List<ChangDiType>>();
-            mapcdtype.put("6", cdtlist);
-            cdb.setMapcdtype(mapcdtype);
+            
+            cdb.setMapcdtype(getCourseData(6,Integer.valueOf(jsfid)));
+            
             List<JSFBbs> jsfbbslist = appDao.jsfBBSList(cd.getId());
             cdb.setJsfbbslist(jsfbbslist);
             cdb.setBbscount(jsfbbslist.size());
@@ -146,21 +125,70 @@ public class AppQuery extends ActionSupport implements RequestAware
         }
     }
     
+    private Map<String,List<ChangDiType>> getCourseData(int day,int jianshenfid)
+    {
+        List<Course> mcclist = appDao.getCourseList();//查询出来所有课程
+        List<JianShenFangCourseTable> jsfcoursetable = appDao.getCourseByJSFId(jianshenfid);
+        List<String> weekdate = DataUtil.getDayWeek(day);
+        Map<String,List<ChangDiType>> mapcdtype = new HashMap<String,List<ChangDiType>>();
+        for(String str : weekdate)
+        {
+            int week = Integer.valueOf(str.split("-")[3]);
+            List<ChangDiType> cdtlist = new ArrayList<ChangDiType>();
+            for(JianShenFangCourseTable mcc : jsfcoursetable)
+            {
+                if(mcc.getWeek() == week)
+                {
+                    int courseid = mcc.getCourseid();
+                    for(Course cs : mcclist)
+                    {
+                        if(courseid == cs.getId())
+                        {
+                            ChangDiType cdt = new ChangDiType();
+                            cdt.setType(cs.getName());
+                            cdt.setStartime(cs.getStarttime());
+                            cdt.setEndtime(cs.getEndtime());
+                            cdt.setRmb(cs.getPrice());
+                            cdtlist.add(cdt);
+                        }
+                    }
+                }
+            }
+            mapcdtype.put(str, cdtlist);
+        }
+        return mapcdtype;
+    }
+    
     //发送短信验证码
     public void sendMessageForReg()
     {
         if(phone != null || udid != null)
         {
-            User user = new User();
-            user.setPhone(phone);
-            user.setUdid(udid);
-            String code = SendPhone.sendPhoneForHuoDong(phone);
-            user.setCode(code);
-            appDao.addUserDataStep1(user);
-            
-            ResultBean rb = new ResultBean();
-            rb.setErrorcode(0);
-            sendResponse("0","",null,"");
+            User ur = appDao.getUserByPhone(phone);
+            if(ur == null)
+            {
+                User user = new User();
+                user.setPhone(phone);
+                user.setUdid(udid);
+                String code = SendPhone.sendPhoneForHuoDong(phone);
+                user.setCode(code);
+                user.setGetcodetime(System.currentTimeMillis());
+                appDao.addUserDataStep1(user);
+                
+                ResultBean rb = new ResultBean();
+                rb.setErrorcode(0);
+                sendResponse("0","",null,"");
+            }
+            else
+            {
+                if((ur.getGetcodetime() + 60 * 1000) < System.currentTimeMillis())
+                {
+                    //大于1分钟了重新修改验证码
+                    String code = "222222";//SendPhone.sendPhoneForHuoDong(phone);
+                    appDao.updateUserCodeByPhone(code, phone);
+                    sendResponse("0","",null,"");
+                }
+            }
         }
         else
         {
@@ -175,7 +203,7 @@ public class AppQuery extends ActionSupport implements RequestAware
             if(appDao.checkCode(code,phone))
             {
                 User user = new User();
-                String token = "token123123aaaa";
+                String token = Tools.getUUID();
                 appDao.addTokenToUser(phone,token);
                 user.setToken(token);
                 sendResponse("0","",null,token);

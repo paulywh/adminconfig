@@ -16,6 +16,15 @@ public class User implements Serializable
     private String code;//验证码6位
     private String token;//生成唯一码
     private String headimg;//用户头像
+    private long getcodetime;//验证码下发时间
+    public long getGetcodetime()
+    {
+        return getcodetime;
+    }
+    public void setGetcodetime(long getcodetime)
+    {
+        this.getcodetime = getcodetime;
+    }
     public int getId()
     {
         return id;

@@ -172,7 +172,7 @@ DROP TABLE IF EXISTS `config_jsf_jsfcourse_table`;
 CREATE TABLE `config_jsf_jsfcourse_table` (
   `id` int(11) NOT NULL,
   `courseid` int(11) NOT NULL,
-  `week` int(11) NOT NULL COMMENT '周几1-7'
+  `week` int(11) NOT NULL COMMENT '周几0-6'
 ) ENGINE=MyISAM AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
 INSERT INTO `config_jsf_jsfcourse_table` VALUES (1,1,6);
 
@@ -184,8 +184,10 @@ CREATE TABLE `config_user` (
   `code` int(11) NOT NULL COMMENT '验证码',
   `token` varchar(50) COMMENT '生成唯一码',
   `headimg` varchar(50) COMMENT '用户头像',
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+  `getcodetime` bigint(20) NOT NULL COMMENT '获取验证码时间2分钟之内重新发',
+  PRIMARY KEY (`id`),
+  PRIMARY KEY (`phone`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `config_jsfbbs`;
 CREATE TABLE `config_jsfbbs` (
