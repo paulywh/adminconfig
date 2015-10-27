@@ -16,13 +16,17 @@ import com.computercenter.common.util.Tools;
 import com.computercenter.service.appinterface.appbean.ChangDiBean;
 import com.computercenter.service.appinterface.appbean.ChangDiType;
 import com.computercenter.service.appinterface.bean.Course;
+import com.computercenter.service.appinterface.bean.IndexTypeBean;
 import com.computercenter.service.appinterface.bean.JianShenFangCourseTable;
 import com.computercenter.service.appinterface.bean.ResultBean;
+import com.computercenter.service.appinterface.bean.ZhiNeng;
 import com.computercenter.service.appinterface.dao.AppDao;
 import com.computercenter.service.bean.JSFBbs;
 import com.computercenter.service.bean.JianShenFang;
 import com.computercenter.service.bean.JsfService;
 import com.computercenter.service.bean.User;
+import com.computercenter.service.bean.UserOrder;
+import com.computercenter.service.bean.UserYouHuiJuanTable;
 import com.opensymphony.xwork2.ActionSupport;
 
 public class AppQuery extends ActionSupport implements RequestAware
@@ -47,6 +51,11 @@ public class AppQuery extends ActionSupport implements RequestAware
     
     //健身房id
     private String jsfid;
+    
+    //order
+    private String coursedate;//课程日期2015-11-12-0
+    private int count;//人数
+    private int youhuijuanid;//优惠卷ID
     
     /**
      * 注释内容
@@ -82,13 +91,33 @@ public class AppQuery extends ActionSupport implements RequestAware
             cdb.setMapcdtype(getCourseData(0,cd.getId()));
             cdblist.add(cdb);
         }
-        sendResponse("0","",cdblist,"");
+        sendResponse(ErrorContent.SUCCESS,"",cdblist,"");
     }
     
     //获取首页3种类型
     public void getTypeList()
     {
+        IndexTypeBean itb = new IndexTypeBean();
+        Map<String,String> data = new HashMap<String,String>();
+        data.put("1", "专业瑜伽");
+        data.put("2", "综合健身");
+        data.put("3", "舞蹈");
+        itb.setData(data);
         
+        List<ZhiNeng> znlist = new ArrayList<ZhiNeng>();
+        ZhiNeng zn = new ZhiNeng();
+        zn.setKey("1");
+        zn.setValue("专业瑜伽");
+        ZhiNeng zn1 = new ZhiNeng();
+        zn1.setKey("2");
+        zn1.setValue("综合健身");
+        ZhiNeng zn2 = new ZhiNeng();
+        zn2.setKey("3");
+        zn2.setValue("舞蹈");
+        znlist.add(zn);
+        znlist.add(zn1);
+        znlist.add(zn2);
+        sendResponse(ErrorContent.SUCCESS,"",znlist,"");
     }
     
     //获取单个场馆信息
@@ -96,7 +125,16 @@ public class AppQuery extends ActionSupport implements RequestAware
     {
         if(jsfid != null)
         {
+            List<UserYouHuiJuanTable> useryouhuijuan = null;
             //TODO 只做没登录的
+            if(phone != null)
+            {
+                User ur = getUserByPhone(phone);
+                if(ur != null)
+                {
+                    useryouhuijuan = appDao.getUserYouHuiJuanTable(ur.getId());
+                }
+            }
             JianShenFang cd = appDao.getJianShenFangById(Integer.valueOf(jsfid));
             
             ChangDiBean cdb = new ChangDiBean();
@@ -116,12 +154,13 @@ public class AppQuery extends ActionSupport implements RequestAware
             List<JSFBbs> jsfbbslist = appDao.jsfBBSList(cd.getId());
             cdb.setJsfbbslist(jsfbbslist);
             cdb.setBbscount(jsfbbslist.size());
-            sendResponse("0","",cdb,"");
+            cdb.setUseryouhuijuan(useryouhuijuan);
+            sendResponse(ErrorContent.SUCCESS,"",cdb,"");
             
         }
         else
         {
-            sendResponse("1","fuck",null,"");
+            sendResponse(ErrorContent.FAIL,"fuck",null,"");
         }
     }
     
@@ -159,12 +198,18 @@ public class AppQuery extends ActionSupport implements RequestAware
         return mapcdtype;
     }
     
+    private User getUserByPhone(String phone)
+    {
+        User ur = appDao.getUserByPhone(phone);
+        return ur;
+    }
+    
     //发送短信验证码
     public void sendMessageForReg()
     {
         if(phone != null || udid != null)
         {
-            User ur = appDao.getUserByPhone(phone);
+            User ur = getUserByPhone(phone);
             if(ur == null)
             {
                 User user = new User();
@@ -177,7 +222,7 @@ public class AppQuery extends ActionSupport implements RequestAware
                 
                 ResultBean rb = new ResultBean();
                 rb.setErrorcode(0);
-                sendResponse("0","",null,"");
+                sendResponse(ErrorContent.SUCCESS,"",null,"");
             }
             else
             {
@@ -186,7 +231,7 @@ public class AppQuery extends ActionSupport implements RequestAware
                     //大于1分钟了重新修改验证码
                     String code = "222222";//SendPhone.sendPhoneForHuoDong(phone);
                     appDao.updateUserCodeByPhone(code, phone);
-                    sendResponse("0","",null,"");
+                    sendResponse(ErrorContent.SUCCESS,"",null,"");
                 }
             }
         }
@@ -200,13 +245,18 @@ public class AppQuery extends ActionSupport implements RequestAware
     {
         if(phone != null || udid != null || code != null)
         {
-            if(appDao.checkCode(code,phone))
+            User user = appDao.checkCode(code,phone);
+            if(user != null)
             {
-                User user = new User();
+                User us = new User();
                 String token = Tools.getUUID();
                 appDao.addTokenToUser(phone,token);
-                user.setToken(token);
-                sendResponse("0","",null,token);
+                us.setToken(token);
+                sendResponse(ErrorContent.SUCCESS,"",us,token);
+            }
+            else
+            {
+                sendResponse(ErrorContent.FAIL,"验证码错误！",null,"");
             }
         }
         else
@@ -215,7 +265,26 @@ public class AppQuery extends ActionSupport implements RequestAware
         }
     }
     
-    private void sendResponse(String errorcode,String errormsg,Object obj,String token)
+    //创建订单
+    public void createOrder()
+    {
+        if(courseid != 0 && coursedate != null && count != 0 && youhuijuanid != 0 && phone != null && jsfid != null)
+        {
+            UserOrder uo = new UserOrder();
+            uo.setOrderid(Tools.getUUID());
+            uo.setCount(count);
+            uo.setIsgo(0);
+            uo.setJsfid(Integer.valueOf(jsfid));
+            uo.setMaketime(coursedate);
+            uo.setOrdertime(System.currentTimeMillis());
+            uo.setPrice(50);
+            uo.setCoursename("哈哈运动");
+            
+            sendResponse(ErrorContent.SUCCESS,"",uo,"");
+        }
+    }
+    
+    private void sendResponse(int errorcode,String errormsg,Object obj,String token)
     {
         JSONObject json = new JSONObject();
         json.put("errorcode", errorcode);
@@ -406,5 +475,35 @@ public class AppQuery extends ActionSupport implements RequestAware
     public void setJsfid(String jsfid)
     {
         this.jsfid = jsfid;
+    }
+
+    public String getCoursedate()
+    {
+        return coursedate;
+    }
+
+    public void setCoursedate(String coursedate)
+    {
+        this.coursedate = coursedate;
+    }
+
+    public int getCount()
+    {
+        return count;
+    }
+
+    public void setCount(int count)
+    {
+        this.count = count;
+    }
+
+    public int getYouhuijuanid()
+    {
+        return youhuijuanid;
+    }
+
+    public void setYouhuijuanid(int youhuijuanid)
+    {
+        this.youhuijuanid = youhuijuanid;
     }
 }

@@ -67,6 +67,15 @@
         <result column="week" jdbcType="INTEGER" property="week"/>
     </resultMap>
     
+    <resultMap class="com.computercenter.service.bean.UserYouHuiJuanTable" id="baseResultUserYHJTable">
+    	<result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="yhjid" jdbcType="INTEGER" property="yhjid"/>
+        <result column="userid" jdbcType="INTEGER" property="userid"/>
+        <result column="price" jdbcType="INTEGER" property="price"/>
+        <result column="overtim" jdbcType="VARCHAR" property="overtim"/>
+        <result column="isuser" jdbcType="VARCHAR" property="isuser"/>
+    </resultMap>
+    
     <typeAlias alias="paruserBean"
 		type="com.computercenter.service.bean.User" />
 		
@@ -133,6 +142,12 @@
     <select id="queryjsfcoursetable" parameterClass="java.lang.Integer" resultMap="baseResultjsfcoursetable">
      <![CDATA[ 
         select * from config_jsf_jsfcourse_table where id = #jsfid#;
+     ]]>
+    </select>
+    
+    <select id="queryuseryouhuijuantable" parameterClass="java.lang.Integer" resultMap="baseResultUserYHJTable">
+     <![CDATA[ 
+        select * from config_useryouhuijuantable where id = #userid#;
      ]]>
     </select>
 </sqlMap>

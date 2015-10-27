@@ -125,6 +125,7 @@ CREATE TABLE `config_jianshenfang`(
 ) ENGINE=MyISAM AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
 
 INSERT INTO `config_jianshenfang` VALUES ('1', '新生健身（北苑店）', '朝阳区朝阳区北苑东路山水蓝维小区(勇士营郊野公园西门对面)', '20150626163702_16630.jpg', '20150617223300_79353.jpg;20150617223309_66538.jpg;', '10:00', '22:00','朝阳区朝阳区北苑东路山水蓝维小区(勇士营郊野公园西门对面)','010-57958688','1','40.036751', '116.441098','44', '30',10,8888);
+INSERT INTO `config_jianshenfang` VALUES ('2', '哈哈减肥', '朝阳区朝阳区北苑东路山水蓝维小区(勇士营郊野公园西门对面)', '20150626163702_16630.jpg', '20150617223300_79353.jpg;20150617223309_66538.jpg;', '10:00', '22:00','朝阳区朝阳区北苑东路山水蓝维小区(勇士营郊野公园西门对面)','010-57958688','1','40.036751', '116.441098','44', '30',10,8888);
 
 DROP TABLE IF EXISTS `config_jianshenfang_service`;
 CREATE TABLE `config_jianshenfang_service` (
@@ -185,8 +186,7 @@ CREATE TABLE `config_user` (
   `token` varchar(50) COMMENT '生成唯一码',
   `headimg` varchar(50) COMMENT '用户头像',
   `getcodetime` bigint(20) NOT NULL COMMENT '获取验证码时间2分钟之内重新发',
-  PRIMARY KEY (`id`),
-  PRIMARY KEY (`phone`)
+  PRIMARY KEY (`id`,`phone`)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `config_jsfbbs`;
@@ -200,3 +200,35 @@ CREATE TABLE `config_jsfbbs` (
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 INSERT INTO `config_jsfbbs` VALUES (1,1,6,'王二小',5,'日了狗');
+
+--用户优惠卷关联表
+DROP TABLE IF EXISTS `config_useryouhuijuantable`;
+CREATE TABLE `config_useryouhuijuantable` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `yhjid` int(11) NOT NULL COMMENT '优惠卷id',
+  `userid` int(11) NOT NULL COMMENT '用户id',
+  `price` int(11) NOT NULL COMMENT '优惠卷金额',
+  `overtime` bigint(20) COMMENT '过期时间',
+  `isuser` int(11) NOT NULL COMMENT '是否使用1是0否',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+INSERT INTO `config_useryouhuijuantable` VALUES (1,1,1,50,1445877582886,0);
+
+--订单表
+DROP TABLE IF EXISTS `config_userorder`;
+CREATE TABLE `config_userorder` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `orderid` varchar(200) NOT NULL COMMENT '订单id',
+  `jsfid` int(11) NOT NULL COMMENT '健身房id',
+  `yhjid` int(11) NOT NULL COMMENT '优惠卷id',
+  `userid` int(11) NOT NULL COMMENT '用户id',
+  `maketime` varchar(200) NOT NULL COMMENT '预约时间',
+  `price` int(11) NOT NULL COMMENT '优惠卷金额',
+  `ordertime` bigint(20) COMMENT '下单日期',
+  `isgo` int(11) NOT NULL COMMENT '是否去了1是0否',
+  `count` int(11) NOT NULL COMMENT '可以去几个人',
+  `pay` int(11) NOT NULL COMMENT '是否支付1是0否',
+  `paytype` int(11) NOT NULL COMMENT '支付类型',
+  `paytime` bigint(20) NOT NULL COMMENT '支付时间',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;

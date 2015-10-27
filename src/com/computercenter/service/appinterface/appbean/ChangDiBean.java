@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.computercenter.service.bean.JSFBbs;
+import com.computercenter.service.bean.UserYouHuiJuanTable;
 
 //客户端场馆信息
 public class ChangDiBean
@@ -22,6 +23,15 @@ public class ChangDiBean
     private String[] sort;//游泳停车那一列包含
     private Map<String,List<ChangDiType>> mapcdtype;
     private List<JSFBbs> jsfbbslist;//健身房留言列表
+    List<UserYouHuiJuanTable> useryouhuijuan;//用户优惠卷列表
+    public List<UserYouHuiJuanTable> getUseryouhuijuan()
+    {
+        return useryouhuijuan;
+    }
+    public void setUseryouhuijuan(List<UserYouHuiJuanTable> useryouhuijuan)
+    {
+        this.useryouhuijuan = useryouhuijuan;
+    }
     public int getYearprice()
     {
         return yearprice;

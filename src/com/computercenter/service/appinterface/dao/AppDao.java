@@ -8,6 +8,7 @@ import com.computercenter.service.bean.JSFBbs;
 import com.computercenter.service.bean.JianShenFang;
 import com.computercenter.service.bean.JsfService;
 import com.computercenter.service.bean.User;
+import com.computercenter.service.bean.UserYouHuiJuanTable;
 
 public interface AppDao
 {
@@ -30,7 +31,7 @@ public interface AppDao
     boolean addUserDataStep1(User user);
     
     //检测验证码
-    boolean checkCode(String code,String phone);
+    User checkCode(String code,String phone);
     
     //添加token到用户表
     void addTokenToUser(String phone,String token);
@@ -43,4 +44,7 @@ public interface AppDao
     
     //查询健身房和课程关联数据
     List<JianShenFangCourseTable> getCourseByJSFId(int jsfid);
+    
+    //查询用户优惠卷
+    List<UserYouHuiJuanTable> getUserYouHuiJuanTable(int userid);
 }

@@ -13,6 +13,7 @@ import com.computercenter.service.bean.JSFBbs;
 import com.computercenter.service.bean.JianShenFang;
 import com.computercenter.service.bean.JsfService;
 import com.computercenter.service.bean.User;
+import com.computercenter.service.bean.UserYouHuiJuanTable;
 
 public class AppDaoImpl extends SqlMapClientDaoSupport implements AppDao
 {
@@ -75,14 +76,13 @@ public class AppDaoImpl extends SqlMapClientDaoSupport implements AppDao
     }
 
     @Override
-    public boolean checkCode(String code,String phone)
+    public User checkCode(String code,String phone)
     {
         Map<String,String> mappar = new HashMap<String,String>();
         mappar.put("code",code);
         mappar.put("phone",phone);
-        @SuppressWarnings("unchecked")
-        List<User> cdlist = (List<User>)getSqlMapClientTemplate().queryForList("t_mc_appinfo.checkcode",mappar);
-        return cdlist.size() > 0;
+        User user = (User)getSqlMapClientTemplate().queryForObject("t_mc_appinfo.checkcode",mappar);
+        return user;
     }
 
     @Override
@@ -108,5 +108,13 @@ public class AppDaoImpl extends SqlMapClientDaoSupport implements AppDao
         @SuppressWarnings("unchecked")
         List<JianShenFangCourseTable> jsfsource = (List<JianShenFangCourseTable>)getSqlMapClientTemplate().queryForList("t_mc_appinfo.queryjsfcoursetable", jsfid);
         return jsfsource;
+    }
+    
+    @Override
+    public List<UserYouHuiJuanTable> getUserYouHuiJuanTable(int userid)
+    {
+        @SuppressWarnings("unchecked")
+        List<UserYouHuiJuanTable> uyyjtable = (List<UserYouHuiJuanTable>)getSqlMapClientTemplate().queryForList("t_mc_appinfo.queryuseryouhuijuantable", userid);
+        return uyyjtable;
     }
 }
