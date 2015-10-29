@@ -15,6 +15,8 @@ import com.computercenter.common.util.SendPhone;
 import com.computercenter.common.util.Tools;
 import com.computercenter.service.appinterface.appbean.ChangDiBean;
 import com.computercenter.service.appinterface.appbean.ChangDiType;
+import com.computercenter.service.appinterface.appbean.UserOrderBean;
+import com.computercenter.service.appinterface.appbean.UserOrderDescBean;
 import com.computercenter.service.appinterface.bean.Course;
 import com.computercenter.service.appinterface.bean.IndexTypeBean;
 import com.computercenter.service.appinterface.bean.JianShenFangCourseTable;
@@ -34,13 +36,19 @@ public class AppQuery extends ActionSupport implements RequestAware
     private String uuid;
     private int pageNo;
     private int pageSize;
-    private int city;//城市{北京、上海..}
-    private int courseid;//课程id
-    private int quanbu;//界面的全部
-    private int zhineng;//界面智能
     private int x;
     private int y;
-    private int searchname;//搜索名称
+    private int searchname;//搜索拦
+    //距离1
+    //价格2
+    //评价3
+    private int zn;
+    //城市
+    private String city;
+    //data.put("1", "专业瑜伽");
+    //data.put("2", "综合健身");
+    //data.put("3", "舞蹈");
+    private int coursetype;
     
     //user des
     private String phone;//用户手机号码
@@ -56,6 +64,9 @@ public class AppQuery extends ActionSupport implements RequestAware
     private String coursedate;//课程日期2015-11-12-0
     private int count;//人数
     private int youhuijuanid;//优惠卷ID
+    private String orderid;
+    private int courseid;
+    private int paytype = 0;//支付类型1成功0等待支付2完成3取消
     
     /**
      * 注释内容
@@ -63,7 +74,7 @@ public class AppQuery extends ActionSupport implements RequestAware
     private static final long serialVersionUID = 6517206306464400719L;
     private AppDao appDao;
     
-    public void getuserdata()
+    public void getJianShenFangdata()
     {
         List<JianShenFang> jsflist = appDao.getChangGuanInfo(pageNo, pageSize);
         List<ChangDiBean> cdblist = new ArrayList<ChangDiBean>();
@@ -71,6 +82,7 @@ public class AppQuery extends ActionSupport implements RequestAware
         {
             ChangDiBean cdb = new ChangDiBean();
             
+            cdb.setJsfid(cd.getId());
             cdb.setChangdiname(cd.getName());
             cdb.setHeadimg(cd.getTitleimg());
             cdb.setLbsx(cd.getLbsx());
@@ -270,7 +282,10 @@ public class AppQuery extends ActionSupport implements RequestAware
     {
         if(courseid != 0 && coursedate != null && count != 0 && youhuijuanid != 0 && phone != null && jsfid != null)
         {
+            User user = appDao.getUserByPhone(phone);
             UserOrder uo = new UserOrder();
+            uo.setUserid(user.getId());
+            uo.setCoursid(courseid);
             uo.setOrderid(Tools.getUUID());
             uo.setCount(count);
             uo.setIsgo(0);
@@ -280,7 +295,82 @@ public class AppQuery extends ActionSupport implements RequestAware
             uo.setPrice(50);
             uo.setCoursename("哈哈运动");
             
+            appDao.createUserOrder(uo);
+            
             sendResponse(ErrorContent.SUCCESS,"",uo,"");
+        }
+    }
+    
+    //客户端直接成功订单
+    public void orderOK()
+    {
+        if(Tools.checkString(orderid) && Tools.checkString(phone) && Tools.checkString(token))
+        {
+            User user = appDao.getUserByPhone(phone);
+            UserOrder uo = appDao.queryOrderByUidOid(user.getId(),orderid);
+            if(uo != null)
+            {
+                appDao.updateOrderPayType(orderid,"1");
+                sendResponse(ErrorContent.SUCCESS,"",null,"");
+            }
+        }
+        else
+        {
+            errorResponse();
+        }
+    }
+    
+    //查询用户名下订单
+    public void queryUserOrder()
+    {
+        if(Tools.checkString(phone) && Tools.checkString(token))
+        {
+            User user = appDao.getUserByPhone(phone);
+            List<UserOrder> uolist = appDao.queryOrderByUidOtype(user.getId(),paytype);
+            
+            List<UserOrderBean>  uoblist = new ArrayList<UserOrderBean>();
+            for(UserOrder uo : uolist)
+            {
+                UserOrderBean uob = new UserOrderBean();
+                JianShenFang jsf = appDao.getJianShenFangById(uo.getJsfid());
+                uob.setHeadimg(jsf.getTitleimg());
+                uob.setJsfname(jsf.getName());
+                uob.setCount(uo.getCount());
+                uob.setOrdertime(uo.getOrdertime());
+                uob.setPaytype(uob.getPaytype());
+                uob.setSumprice(uo.getSumprice());
+                
+                uoblist.add(uob);
+            }
+            sendResponse(ErrorContent.SUCCESS,"",uoblist,"");
+        }
+    }
+    
+    //查询订单详情接口
+    public void queryOrderByOrderId()
+    {
+        if(Tools.checkString(phone) && Tools.checkString(token) && Tools.checkString(orderid))
+        {
+            User user = appDao.getUserByPhone(phone);
+            UserOrder uo = appDao.queryOrderByUidOid(user.getId(),orderid);
+            Course course = appDao.getCourseByCourseId(uo.getCoursid());
+            JianShenFang jsf = appDao.getJianShenFangById(uo.getJsfid());
+            
+            UserOrderDescBean uodb = new UserOrderDescBean();
+            uodb.setCount(uo.getCount());
+            uodb.setEndtime(course.getEndtime());
+            uodb.setJsfname(jsf.getName());
+            uodb.setMaketime(Tools.updateTime(uo.getMaketime()));
+            uodb.setName(course.getName());
+            uodb.setOrderid(uo.getOrderid());
+            uodb.setPaytype(uo.getPaytype());
+            uodb.setPrice(uo.getPrice());
+            uodb.setOrdertime(uo.getOrdertime());
+            uodb.setPaytype(uo.getPaytype());
+            uodb.setStarttime(course.getStarttime());
+            uodb.setSumprice(uo.getSumprice());
+            uodb.setYouhuiprice(uo.getYouhuiprice());
+            sendResponse(ErrorContent.SUCCESS,"",uodb,"");
         }
     }
     
@@ -397,16 +487,6 @@ public class AppQuery extends ActionSupport implements RequestAware
         this.headimg = headimg;
     }
 
-    public int getCity()
-    {
-        return city;
-    }
-
-    public void setCity(int city)
-    {
-        this.city = city;
-    }
-
     public int getCourseid()
     {
         return courseid;
@@ -415,26 +495,6 @@ public class AppQuery extends ActionSupport implements RequestAware
     public void setCourseid(int courseid)
     {
         this.courseid = courseid;
-    }
-
-    public int getQuanbu()
-    {
-        return quanbu;
-    }
-
-    public void setQuanbu(int quanbu)
-    {
-        this.quanbu = quanbu;
-    }
-
-    public int getZhineng()
-    {
-        return zhineng;
-    }
-
-    public void setZhineng(int zhineng)
-    {
-        this.zhineng = zhineng;
     }
 
     public int getX()
@@ -505,5 +565,55 @@ public class AppQuery extends ActionSupport implements RequestAware
     public void setYouhuijuanid(int youhuijuanid)
     {
         this.youhuijuanid = youhuijuanid;
+    }
+
+    public String getOrderid()
+    {
+        return orderid;
+    }
+
+    public void setOrderid(String orderid)
+    {
+        this.orderid = orderid;
+    }
+
+    public int getZn()
+    {
+        return zn;
+    }
+
+    public void setZn(int zn)
+    {
+        this.zn = zn;
+    }
+
+    public String getCity()
+    {
+        return city;
+    }
+
+    public void setCity(String city)
+    {
+        this.city = city;
+    }
+
+    public int getCoursetype()
+    {
+        return coursetype;
+    }
+
+    public void setCoursetype(int coursetype)
+    {
+        this.coursetype = coursetype;
+    }
+
+    public int getPaytype()
+    {
+        return paytype;
+    }
+
+    public void setPaytype(int paytype)
+    {
+        this.paytype = paytype;
     }
 }

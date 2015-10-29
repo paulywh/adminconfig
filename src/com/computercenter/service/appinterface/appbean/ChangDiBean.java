@@ -9,6 +9,7 @@ import com.computercenter.service.bean.UserYouHuiJuanTable;
 //客户端场馆信息
 public class ChangDiBean
 {
+    private int jsfid;
     private String changdiname;//场地名称
     private String address;//地址
     private int starnum;//星级
@@ -24,6 +25,14 @@ public class ChangDiBean
     private Map<String,List<ChangDiType>> mapcdtype;
     private List<JSFBbs> jsfbbslist;//健身房留言列表
     List<UserYouHuiJuanTable> useryouhuijuan;//用户优惠卷列表
+    public int getJsfid()
+    {
+        return jsfid;
+    }
+    public void setJsfid(int jsfid)
+    {
+        this.jsfid = jsfid;
+    }
     public List<UserYouHuiJuanTable> getUseryouhuijuan()
     {
         return useryouhuijuan;

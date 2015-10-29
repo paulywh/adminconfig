@@ -121,6 +121,7 @@ CREATE TABLE `config_jianshenfang`(
   `newprice` int(11) NOT NULL COMMENT '场馆优惠价',
   `count` int(11) COMMENT '限制人数',
   `yearprice` int(11) COMMENT '年卡价位',
+  `citynum` int(11) COMMENT '城市名称1北京其他不考虑',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=97 DEFAULT CHARSET=utf8;
 
@@ -223,12 +224,17 @@ CREATE TABLE `config_userorder` (
   `yhjid` int(11) NOT NULL COMMENT '优惠卷id',
   `userid` int(11) NOT NULL COMMENT '用户id',
   `maketime` varchar(200) NOT NULL COMMENT '预约时间',
-  `price` int(11) NOT NULL COMMENT '优惠卷金额',
+  `price` int(11) NOT NULL COMMENT '实际消费金额',
+  `sumprice` int(11) NOT NULL COMMENT '总金额',
+  `youhuiprice` int(11) NOT NULL COMMENT '优惠金额',
+  `coursename` varchar(100) NOT NULL COMMENT '课程名字',
+  `coursid` int(10) NOT NULL COMMENT '课程id',
+  `usertime` int(11) NOT NULL COMMENT '使用时间表示去了场馆扫码时间',
   `ordertime` bigint(20) COMMENT '下单日期',
   `isgo` int(11) NOT NULL COMMENT '是否去了1是0否',
   `count` int(11) NOT NULL COMMENT '可以去几个人',
   `pay` int(11) NOT NULL COMMENT '是否支付1是0否',
-  `paytype` int(11) NOT NULL COMMENT '支付类型',
+  `paytype` int(11) NOT NULL COMMENT '支付类型1成功0等待支付2完成3取消',
   `paytime` bigint(20) NOT NULL COMMENT '支付时间',
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id`,`orderid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

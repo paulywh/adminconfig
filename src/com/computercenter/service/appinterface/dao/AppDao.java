@@ -8,6 +8,7 @@ import com.computercenter.service.bean.JSFBbs;
 import com.computercenter.service.bean.JianShenFang;
 import com.computercenter.service.bean.JsfService;
 import com.computercenter.service.bean.User;
+import com.computercenter.service.bean.UserOrder;
 import com.computercenter.service.bean.UserYouHuiJuanTable;
 
 public interface AppDao
@@ -47,4 +48,19 @@ public interface AppDao
     
     //查询用户优惠卷
     List<UserYouHuiJuanTable> getUserYouHuiJuanTable(int userid);
+    
+    //创建订单
+    void createUserOrder(UserOrder uo);
+    
+    //查询用户唯一订单
+    UserOrder queryOrderByUidOid(int userid,String orderid);
+    
+    //修改订单paytpye
+    void updateOrderPayType(String orderid,String paytype);
+    
+    //查询用户订单分类
+    List<UserOrder> queryOrderByUidOtype(int userid,int paytype);
+    
+    //查询单个课程
+    Course getCourseByCourseId(int courseid);
 }

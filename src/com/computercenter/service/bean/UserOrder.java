@@ -11,17 +11,26 @@ public class UserOrder implements Serializable
     private int yhjid;//优惠卷id
     private int userid;//用户id
     private String maketime;//预约时间
-    private int price;//消费金额
+    private int price;//实际消费金额
     private int sumprice;//总金额
     private int youhuiprice;//优惠金额
     private String coursename;//课程名字
-    private String usertime;//使用时间
+    private int coursid;//课程id
+    private long usertime;//使用时间 表示去了场馆扫码时间
     private long ordertime;//下单日期
     private int isgo;//是否去了1是0否
     private int count;//可以去几个人
     private int pay;//是否支付1是0否
     private int paytype;//支付类型
     private long paytime;//支付时间
+    public int getCoursid()
+    {
+        return coursid;
+    }
+    public void setCoursid(int coursid)
+    {
+        this.coursid = coursid;
+    }
     public int getSumprice()
     {
         return sumprice;
@@ -46,17 +55,17 @@ public class UserOrder implements Serializable
     {
         this.coursename = coursename;
     }
-    public String getUsertime()
-    {
-        return usertime;
-    }
-    public void setUsertime(String usertime)
-    {
-        this.usertime = usertime;
-    }
     public int getId()
     {
         return id;
+    }
+    public long getUsertime()
+    {
+        return usertime;
+    }
+    public void setUsertime(long usertime)
+    {
+        this.usertime = usertime;
     }
     public void setId(int id)
     {

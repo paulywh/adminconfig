@@ -76,8 +76,32 @@
         <result column="isuser" jdbcType="VARCHAR" property="isuser"/>
     </resultMap>
     
+    <resultMap class="com.computercenter.service.bean.UserOrder" id="baseResultUserOrder">
+    	<result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="orderid" jdbcType="VARCHAR" property="orderid"/>
+        <result column="jsfid" jdbcType="INTEGER" property="jsfid"/>
+        <result column="yhjid" jdbcType="INTEGER" property="yhjid"/>
+        <result column="userid" jdbcType="INTEGER" property="userid"/>
+        <result column="maketime" jdbcType="VARCHAR" property="maketime"/>
+        <result column="price" jdbcType="INTEGER" property="price"/>
+        <result column="sumprice" jdbcType="INTEGER" property="sumprice"/>
+        <result column="youhuiprice" jdbcType="INTEGER" property="youhuiprice"/>
+        <result column="coursename" jdbcType="VARCHAR" property="coursename"/>
+        <result column="coursid" jdbcType="INTEGER" property="coursid"/>
+        <result column="usertime" jdbcType="VARCHAR" property="usertime"/>
+        <result column="ordertime" jdbcType="VARCHAR" property="ordertime"/>
+        <result column="isgo" jdbcType="INTEGER" property="isgo"/>
+        <result column="count" jdbcType="INTEGER" property="count"/>
+        <result column="pay" jdbcType="INTEGER" property="pay"/>
+        <result column="paytype" jdbcType="INTEGER" property="paytype"/>
+        <result column="paytime" jdbcType="VARCHAR" property="paytime"/>
+    </resultMap>
+    
     <typeAlias alias="paruserBean"
 		type="com.computercenter.service.bean.User" />
+	
+	<typeAlias alias="userOrderBean"
+		type="com.computercenter.service.bean.UserOrder" />
 		
     <select id="queryappcdinfo" parameterClass="java.util.Map" resultMap="baseResultJSF">
      <![CDATA[ 
@@ -133,6 +157,12 @@
      ]]>
     </select>
     
+    <select id="queryallcoursebycourseid" parameterClass="java.lang.Integer" resultMap="baseResultCourse">
+     <![CDATA[ 
+        select * from config_jianshenfang_course where id=#id#;
+     ]]>
+    </select>
+    
     <select id="queryjsfBBSList" parameterClass="java.lang.Integer" resultMap="baseResultjsfbbs">
      <![CDATA[ 
         select * from config_jsfbbs where id = #jsfid#;
@@ -148,6 +178,30 @@
     <select id="queryuseryouhuijuantable" parameterClass="java.lang.Integer" resultMap="baseResultUserYHJTable">
      <![CDATA[ 
         select * from config_useryouhuijuantable where id = #userid#;
+     ]]>
+    </select>
+    
+    <insert id="createOrder" parameterClass="userOrderBean">
+     <![CDATA[ 
+        insert into config_userorder(orderid,jsfid,yhjid,userid,maketime,price,sumprice,youhuiprice,coursename,coursid,usertime,ordertime,isgo,count,pay,paytype,paytime)values(#orderid:String#,#jsfid:Integer#,#yhjid:Integer#,#userid:Integer#,#maketime:String#,#price:Integer#,#sumprice:Integer#,#youhuiprice:Integer#,#coursename:String#,#coursid:Integer#,#usertime:String#,#ordertime:String#,#isgo:Integer#,#count:Integer#,#pay:Integer#,#paytype:Integer#,#paytime:Integer#);
+     ]]>
+    </insert>
+    
+    <select id="queryuserorderbyuidoid" parameterClass="java.util.Map" resultMap="baseResultUserOrder">
+     <![CDATA[ 
+        select * from config_userorder where userid = #userid# and orderid = #orderid#;
+     ]]>
+    </select>
+    
+    <update id="updateUserOrderPayType" parameterClass="java.util.Map">
+     <![CDATA[ 
+		update config_userorder set paytype=#paytype# where orderid=#orderid#
+	 ]]>
+	</update>
+	
+	<select id="queryuserorderbyuidotype" parameterClass="java.util.Map" resultMap="baseResultUserOrder">
+     <![CDATA[ 
+        select * from config_userorder where userid = #userid# and paytype = #paytype#;
      ]]>
     </select>
 </sqlMap>

@@ -13,6 +13,7 @@ import com.computercenter.service.bean.JSFBbs;
 import com.computercenter.service.bean.JianShenFang;
 import com.computercenter.service.bean.JsfService;
 import com.computercenter.service.bean.User;
+import com.computercenter.service.bean.UserOrder;
 import com.computercenter.service.bean.UserYouHuiJuanTable;
 
 public class AppDaoImpl extends SqlMapClientDaoSupport implements AppDao
@@ -116,5 +117,52 @@ public class AppDaoImpl extends SqlMapClientDaoSupport implements AppDao
         @SuppressWarnings("unchecked")
         List<UserYouHuiJuanTable> uyyjtable = (List<UserYouHuiJuanTable>)getSqlMapClientTemplate().queryForList("t_mc_appinfo.queryuseryouhuijuantable", userid);
         return uyyjtable;
+    }
+
+    @Override
+    public void createUserOrder(UserOrder uo)
+    {
+        getSqlMapClientTemplate().insert("t_mc_appinfo.createOrder", uo);
+    }
+
+    @Override
+    public UserOrder queryOrderByUidOid(int userid, String orderid)
+    {
+        UserOrder uopar = new UserOrder();
+        uopar.setUserid(userid);
+        uopar.setOrderid(orderid);
+        Map<String,String> mappar = new HashMap<String,String>();
+        mappar.put("userid",userid+"");
+        mappar.put("orderid",orderid);
+        UserOrder uo = (UserOrder)getSqlMapClientTemplate().queryForObject("t_mc_appinfo.queryuserorderbyuidoid", mappar);
+        return uo;
+    }
+
+    @Override
+    public void updateOrderPayType(String orderid, String paytype)
+    {
+        Map<String,String> mappar = new HashMap<String,String>();
+        mappar.put("paytype",paytype);
+        mappar.put("orderid",orderid);
+        getSqlMapClientTemplate().update("t_mc_appinfo.updateUserOrderPayType", mappar);
+    }
+
+    @Override
+    public List<UserOrder> queryOrderByUidOtype(int userid, int paytype)
+    {
+        Map<String,Integer> mappar = new HashMap<String,Integer>();
+        mappar.put("userid",userid);
+        mappar.put("paytype",paytype);
+        
+        @SuppressWarnings("unchecked")
+        List<UserOrder> uolist = (List<UserOrder>)getSqlMapClientTemplate().queryForList("t_mc_appinfo.queryuserorderbyuidotype", mappar);
+        return uolist;
+    }
+    
+    @Override
+    public Course getCourseByCourseId(int courseid)
+    {
+        Course xcc = (Course)getSqlMapClientTemplate().queryForObject("t_mc_appinfo.queryallcoursebycourseid",courseid);
+        return xcc;
     }
 }
