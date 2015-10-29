@@ -205,7 +205,7 @@ public class AppQuery extends ActionSupport implements RequestAware
                     }
                 }
             }
-            mapcdtype.put(str, cdtlist);
+            mapcdtype.put(Tools.updateTime(str), cdtlist);
         }
         return mapcdtype;
     }
